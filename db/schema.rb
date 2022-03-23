@@ -10,8 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_23_224330) do
-  create_table "classes", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2022_03_23_230135) do
+  create_table "answers", force: :cascade do |t|
+    t.text "text"
+    t.integer "votes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -19,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_224330) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "details"
+    t.integer "importance"
+    t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
