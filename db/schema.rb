@@ -10,12 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_23_230135) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_03_162420) do
   create_table "answers", force: :cascade do |t|
     t.text "text"
     t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "question_id", null: false
+    t.integer "student_id", null: false
+    t.integer "teacher_id", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["student_id"], name: "index_answers_on_student_id"
+    t.index ["teacher_id"], name: "index_answers_on_teacher_id"
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "teachers_subject_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_enrollments_on_student_id"
+    t.index ["teachers_subject_id"], name: "index_enrollments_on_teachers_subject_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -30,6 +45,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_230135) do
     t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "enrollment_id", null: false
+    t.index ["enrollment_id"], name: "index_questions_on_enrollment_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -58,4 +75,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_230135) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "teachers_subjects", force: :cascade do |t|
+    t.integer "teacher_id", null: false
+    t.integer "subject_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject_id"], name: "index_teachers_subjects_on_subject_id"
+    t.index ["teacher_id"], name: "index_teachers_subjects_on_teacher_id"
+  end
+
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "students"
+  add_foreign_key "answers", "teachers"
+  add_foreign_key "enrollments", "students"
+  add_foreign_key "enrollments", "teachers_subjects"
+  add_foreign_key "questions", "enrollments"
+  add_foreign_key "teachers_subjects", "subjects"
+  add_foreign_key "teachers_subjects", "teachers"
 end
