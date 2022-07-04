@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_03_162420) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_04_010455) do
   create_table "answers", force: :cascade do |t|
     t.text "text"
     t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "question_id", null: false
-    t.integer "student_id", null: false
-    t.integer "teacher_id", null: false
+    t.integer "student_id"
+    t.integer "teacher_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["student_id"], name: "index_answers_on_student_id"
     t.index ["teacher_id"], name: "index_answers_on_teacher_id"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_03_162420) do
     t.string "parent_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "group"
   end
 
   create_table "subjects", force: :cascade do |t|
