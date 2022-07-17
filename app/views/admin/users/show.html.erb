@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @user %>
+
+<div>
+  <% if (current_user.id == @user.id) %>
+    <%= link_to "Edit profile", edit_user_registration_path(@user) %> |
+    <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete %>
+  <% else %>
+    <%= link_to "Edit this user", edit_admin_user_path(@user) %> |
+    <%= link_to "Back to users", admin_users_path %>
+
+    <%= button_to 'Delete this user', admin_user_path(@user), :confirm => 'Are you sure?', :method => :delete %>
+  <% end %>
+</div>

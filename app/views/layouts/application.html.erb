@@ -57,26 +57,26 @@
             <% elsif current_user.role == "ADMIN" %>
               <li class="nav-item m-3">
                 <a class="nav-link">
-                  <%= link_to "Students", "/students", :class => 'text-decoration-none'   %>
+                  <%= link_to "Users", admin_users_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>
               <li class="nav-item m-3">
                 <a class="nav-link">
-                  <%= link_to "Teachers", "/teachers", :class => 'text-decoration-none'   %>
-                </a>
-              </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
-                  <%= link_to "Subjects", "/subjects", :class => 'text-decoration-none'   %>
+                  <%= link_to "Subjects", subjects_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>
             <% end %>
 
-          <li class="nav-item m-3">
+            <li class="nav-item m-3">
               <a class="nav-link">
-                <%= link_to 'Edit profile', edit_user_registration_path, :class => 'text-decoration-none'   %>
+                <%= link_to 'Show profile', admin_user_path(current_user.id), :class => 'text-decoration-none'   %>
               </a>
             </li>
+<!--            <li class="nav-item m-3">-->
+<!--              <a class="nav-link">-->
+                <%#= link_to 'Edit profile', edit_user_registration_path, :class => 'text-decoration-none'   %>
+<!--              </a>-->
+<!--            </li>-->
             <li class="nav-item m-3">
               <a class="nav-link">
                 <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, :class => 'text-decoration-none'  %>
