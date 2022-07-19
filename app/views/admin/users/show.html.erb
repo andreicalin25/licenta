@@ -7,9 +7,35 @@
     <%= link_to "Edit profile", edit_user_registration_path(@user) %> |
     <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete %>
   <% else %>
-    <%= link_to "Edit this user", edit_admin_user_path(@user) %> |
-    <%= link_to "Back to users", admin_users_path %>
+    <div class="row">
+      <div class="col">
 
-    <%= button_to 'Delete this user', admin_user_path(@user), :confirm => 'Are you sure?', :method => :delete %>
+        <%= link_to "Edit this user", edit_admin_user_path(@user) %> |
+        <%= link_to "Back to users", admin_users_path %>
+
+        <%= button_to 'Delete this user', admin_user_path(@user), :confirm => 'Are you sure?', :method => :delete %>
+      </div>
+
+      <% if @user.role == "TEACHER" %>
+        <div class="col">
+
+          <h2> Teacher's subjects </h2>
+          <% @teachers_subjects.each do |teachers_subject| %>
+            <p>
+              <strong>Subject name:</strong>
+              <%= teachers_subject.subject.subject_name %>
+            </p>
+
+            <p>
+              <strong>Activity:</strong>
+              <%= teachers_subject.subject.activity %>
+            </p>
+            <%= button_to "Remove Subject", teachers_subject_path(teachers_subject.id), controller: 'teachers_subjects', action_name: 'destroy', method: :delete %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
+
+
 </div>

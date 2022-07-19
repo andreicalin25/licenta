@@ -1,14 +1,12 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Subjects</h1>
 
 <% if current_user.role == "TEACHER" %>
   <div class="row">
     <div class="col">
       <h2> My subjects </h2>
-      <% @subjects_of_teacher.each do |subject| %>
-        <%= render subject %>
-        <%= button_to "Remove Subject", controller: 'teachers_subjects', action_name: 'destroy', method: :delete %>
+      <% @subjects_of_teacher.each do |teachers_subject| %>
+        <%= render teachers_subject.subject %>
+        <%= button_to "Remove Subject", teachers_subject_path(teachers_subject.id), controller: 'teachers_subjects', action_name: 'destroy', method: :delete %>
     <% end %>
     </div>
     <div class="col">

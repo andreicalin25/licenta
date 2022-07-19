@@ -14,8 +14,9 @@ class TeachersSubjectsController < ApplicationController
   end
 
   def destroy
-    @teachers_subject = TeachersSubject.find_by(teachers_subject_params).first
-    puts @teachers_subject || "\n\n!!!no one found\n\n"
+    @teachers_subject = TeachersSubject.find(params[:id])
+    @teachers_subject.destroy
+
     respond_to do |format|
       format.html { redirect_to subjects_url, notice: "Subject was successfully removed." }
       format.json { head :no_content }

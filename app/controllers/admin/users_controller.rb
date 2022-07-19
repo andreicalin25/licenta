@@ -11,6 +11,7 @@ class Admin::UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @teachers_subjects = TeachersSubject.subjects_of_teacher(@user.id)
   end
 
   # GET /users/new
