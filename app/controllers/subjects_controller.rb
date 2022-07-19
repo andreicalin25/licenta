@@ -1,10 +1,17 @@
 class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  # before_action :authorize_admin, only: %i[ show new create edit update destroy]
+  before_action :authorize_admin_or_teacher
 
   # GET /subjects or /subjects.json
   def index
-    @subjects = Subject.all
+    if current_user.role == "TEACHER"
+      @subjects_of_teacher = Subject.subjects_of_teacher(current_user.id)
+      @subjects_not_of_teacher = Subject.subjects_not_of_teacher(current_user.id)
+    else
+      @subjects = Subject.all
+    end
   end
 
   # GET /subjects/1 or /subjects/1.json
@@ -64,8 +71,18 @@ class SubjectsController < ApplicationController
       @subject = Subject.find(params[:id])
     end
 
+    def authorize_admin
+      return unless current_user.role != "ADMIN"
+      redirect_to root_path, alert: 'Admins only!'
+    end
+
+    def authorize_admin_or_teacher
+      return unless current_user.role != "ADMIN" and current_user.role != "TEACHER"
+      redirect_to root_path, alert: 'Admins only!'
+    end
+
     # Only allow a list of trusted parameters through.
     def subject_params
-      params.require(:subject).permit(:subject_name, :type)
+      params.require(:subject).permit(:subject_name, :activity)
     end
 end

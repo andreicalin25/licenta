@@ -4,4 +4,6 @@ class TeachersSubject < ApplicationRecord
 
   has_many :enrollments
   has_many :students, through: :enrollments
+
+  scope :subjects_of_teacher, ->(teacher_id) {where(teacher_id: teacher_id)}
 end

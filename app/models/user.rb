@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   validates :role, inclusion: { in: %w(ADMIN TEACHER STUDENT),
                                 message: "%{value} must be STUDENT or TEACHER" }, allow_nil: false
+
+  scope :teachers, -> {where(role: "TEACHER")}
+  scope :students, -> {where(role: "STUDENT")}
 end

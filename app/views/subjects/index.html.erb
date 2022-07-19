@@ -2,13 +2,31 @@
 
 <h1>Subjects</h1>
 
-<div id="subjects">
-  <% @subjects.each do |subject| %>
-    <%= render subject %>
-    <p>
-      <%= link_to "Show this subject", subject %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New subject", new_subject_path %>
+<% if current_user.role == "TEACHER" %>
+  <div class="row">
+    <div class="col">
+      <h2> My subjects </h2>
+      <% @subjects_of_teacher.each do |subject| %>
+        <%= render subject %>
+        <%= button_to "Remove Subject", controller: 'teachers_subjects', action_name: 'destroy', method: :delete %>
+    <% end %>
+    </div>
+    <div class="col">
+      <h2> Other subjects </h2>
+      <% @subjects_not_of_teacher.each do |subject| %>
+        <%= render subject %>
+        <%= button_to "Add Subject", controller: 'teachers_subjects', action_name: 'create', method: :post, data: {teacher_id: current_user.id, subject_id: subject.id} %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div id="subjects">
+    <% @subjects.each do |subject| %>
+      <%= render subject %>
+      <p>
+        <%= link_to "Show this subject", subject %>
+      </p>
+    <% end %>
+  </div>
+  <%= link_to "New subject", new_subject_path %>
+<% end %>
