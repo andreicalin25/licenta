@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
-  # before_action :authorize_admin, only: %i[ show new create edit update destroy]
+  before_action :authorize_admin, only: %i[ show new create edit update destroy]
   before_action :authorize_admin_or_teacher
 
   # GET /subjects or /subjects.json
@@ -78,7 +78,7 @@ class SubjectsController < ApplicationController
 
     def authorize_admin_or_teacher
       return unless current_user.role != "ADMIN" and current_user.role != "TEACHER"
-      redirect_to root_path, alert: 'Admins only!'
+      redirect_to root_path, alert: 'Admins and teachers only!'
     end
 
     # Only allow a list of trusted parameters through.

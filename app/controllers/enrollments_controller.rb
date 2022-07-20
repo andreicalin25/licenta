@@ -1,5 +1,7 @@
 class EnrollmentsController < ApplicationController
-  before_action :set_enrollment, only: %i[ show edit update destroy ]
+  before_action :set_enrollment, only: %i[ show destroy ]
+  before_action :authenticate_user!
+  before_action :authorize_admin_or_student
 
   # GET /enrollments or /enrollments.json
   def index
@@ -15,15 +17,6 @@ class EnrollmentsController < ApplicationController
   def show
   end
 
-  # GET /enrollments/new
-  # def new
-  #   @enrollment = Enrollment.new
-  # end
-
-  # GET /enrollments/1/edit
-  # def edit
-  # end
-
   # POST /enrollments or /enrollments.json
   def create
     @enrollment = Enrollment.new(enrollment_creation_params)
@@ -38,19 +31,6 @@ class EnrollmentsController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /enrollments/1 or /enrollments/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @enrollment.update(enrollment_params)
-  #       format.html { redirect_to enrollment_url(@enrollment), notice: "Enrollment was successfully updated." }
-  #       format.json { render :show, status: :ok, location: @enrollment }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.json { render json: @enrollment.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # DELETE /enrollments/1 or /enrollments/1.json
   def destroy
@@ -76,4 +56,9 @@ class EnrollmentsController < ApplicationController
     def enrollment_creation_params
       params.require(:data).permit(:student_id, :teachers_subject_id)
     end
-end
+
+    def authorize_admin_or_student
+      return unless current_user.role != "ADMIN" and current_user.role != "STUDENT"
+      redirect_to root_path, alert: 'Admins and students only!'
+    end
+  end

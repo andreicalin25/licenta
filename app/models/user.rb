@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :teachers_subjects
   has_many :subjects, through: :teachers_subjects
+  has_many :enrollments, dependent: :delete_all
 
   validates :role, inclusion: { in: %w(ADMIN TEACHER STUDENT),
                                 message: "%{value} must be STUDENT or TEACHER" }, allow_nil: false

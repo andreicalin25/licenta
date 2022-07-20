@@ -62,6 +62,11 @@
             <% elsif current_user.role == "ADMIN" %>
               <li class="nav-item m-3">
                 <a class="nav-link">
+                  <%= link_to "Enrollments", enrollments_path, :class => 'text-decoration-none'   %>
+                </a>
+              </li>
+              <li class="nav-item m-3">
+                <a class="nav-link">
                   <%= link_to "Users", admin_users_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>

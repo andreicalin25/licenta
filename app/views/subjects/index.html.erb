@@ -17,7 +17,7 @@
       <% end %>
     </div>
   </div>
-<% else %>
+<% elsif current_user.role == "ADMIN" %>
   <div id="subjects">
     <% @subjects.each do |subject| %>
       <%= render subject %>
