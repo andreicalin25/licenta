@@ -1,6 +1,6 @@
 class TeachersSubjectsController < ApplicationController
   def create
-    @teachers_subject = TeachersSubject.new(teachers_subject_params)
+    @teachers_subject = TeachersSubject.new(teachers_subject_creation_params)
 
     respond_to do |format|
       if @teachers_subject.save
@@ -18,13 +18,13 @@ class TeachersSubjectsController < ApplicationController
     @teachers_subject.destroy
 
     respond_to do |format|
-      format.html { redirect_to subjects_url, notice: "Subject was successfully removed." }
+      format.html { redirect_back fallback_location: root_path, notice: "Subject was successfully removed." }
       format.json { head :no_content }
     end
   end
 
   private
-  def teachers_subject_params
+  def teachers_subject_creation_params
     params.require(:data).permit(:subject_id, :teacher_id)
   end
 end

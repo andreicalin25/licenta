@@ -1,0 +1,20 @@
+<h1>Enrollments</h1>
+
+<div class="row">
+  <div class="col">
+    <h2> My Enrollments </h2>
+    <% @enrollments_of_student.each do |enrollment| %>
+      <%= render enrollment %>
+      <%= button_to "Remove Enrollment", enrollment_path(enrollment.id), controller: 'enrollments', action_name: 'destroy', method: :delete %>
+    <% end %>
+  </div>
+  <div class="col">
+    <h2> Other Enrollments </h2>
+    <% @teachers_subjects_not_of_student.each do |teachers_subject| %>
+      <%= teachers_subject.subject.subject_name %> (<%= teachers_subject.subject.activity %>) -> <%= teachers_subject.teacher.last_name %> <%= teachers_subject.teacher.first_name %>
+      <%= button_to "Add Enrollment", controller: 'enrollments', action_name: 'create', method: :post, data: {student_id: current_user.id, teachers_subject_id: teachers_subject.id} %>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to "New enrollment", new_enrollment_path %>

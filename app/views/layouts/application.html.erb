@@ -35,6 +35,11 @@
             <% if current_user.role == "STUDENT" %>
               <li class="nav-item m-3">
                 <a class="nav-link">
+                  <%= link_to "My enrollments", "/enrollments", :class => 'text-decoration-none'   %>
+                </a>
+              </li>
+              <li class="nav-item m-3">
+                <a class="nav-link">
                   <%= link_to "My questions", "/questions", :class => 'text-decoration-none'   %>
                 </a>
               </li>
