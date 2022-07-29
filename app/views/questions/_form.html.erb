@@ -12,6 +12,18 @@
   <% end %>
 
   <div>
+    <%= form.label :enrollment, style: "display: block" %>
+    <%= form.select :enrollment_id, @my_enrollments.map { |t| [t.teachers_subject.teacher.last_name + " " + t.teachers_subject.subject.subject_name + " " + t.teachers_subject.subject.activity, t.id]}, {}  %>
+    <%#= form.select(:enrollment_id, options_from_collection_for_select(@my_enrollments, 'id', )) %>
+    <%#= form.label :title, style: "display: block" %>
+<!--    <select name="enrollment">-->
+      <%#= @my_enrollments.each do |e| %>
+<!--        <option value="<%#= e %>"><%#= e.teachers_subject.teacher.last_name + " " + e.teachers_subject.subject.subject_name + " " + e.teachers_subject.subject.activity %></option>-->
+      <%# end %>
+<!--    </select>-->
+  </div>
+
+  <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
   </div>
@@ -19,6 +31,11 @@
   <div>
     <%= form.label :details, style: "display: block" %>
     <%= form.text_area :details %>
+  </div>
+
+  <div>
+    <%= form.label :anonymous, style: "display: block" %>
+    <%= form.check_box :anonymous %>
   </div>
 
   <div>

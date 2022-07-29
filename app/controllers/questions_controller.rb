@@ -6,6 +6,11 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
+  # GET /questions or /questions.json
+  def my_questions
+    @my_questions = Question.questions_of_student(current_user.id)
+  end
+
   # GET /questions/1 or /questions/1.json
   def show
   end
@@ -13,6 +18,7 @@ class QuestionsController < ApplicationController
   # GET /questions/new
   def new
     @question = Question.new
+    @my_enrollments = Enrollment.enrollments_of_student(current_user.id)
   end
 
   # GET /questions/1/edit
@@ -21,6 +27,7 @@ class QuestionsController < ApplicationController
 
   # POST /questions or /questions.json
   def create
+    @my_enrollments = Enrollment.enrollments_of_student(current_user.id)
     @question = Question.new(question_params)
 
     respond_to do |format|
@@ -65,6 +72,6 @@ class QuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def question_params
-      params.require(:question).permit(:title, :details, :importance, :votes)
+      params.require(:question).permit(:title, :details, :importance, :votes, :enrollment_id, :anonymous)
     end
 end

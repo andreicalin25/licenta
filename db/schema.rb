@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_04_010447) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_28_180737) do
   create_table "answers", force: :cascade do |t|
     t.text "text", null: false
     t.integer "votes"
@@ -39,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_04_010447) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "enrollment_id", null: false
+    t.boolean "anonymous", default: false
     t.index ["enrollment_id"], name: "index_questions_on_enrollment_id"
   end
 

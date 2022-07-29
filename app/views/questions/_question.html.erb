@@ -1,5 +1,16 @@
 <div id="<%= dom_id question %>">
   <p>
+    <strong>Subject:</strong>
+    <%= question.enrollment.subject.subject_name %> -
+    <%= question.enrollment.subject.activity %>
+  </p>
+
+  <p>
+    <strong>Teacher:</strong>
+    <%= question.enrollment.teacher.last_name %>
+  </p>
+
+  <p>
     <strong>Title:</strong>
     <%= question.title %>
   </p>
@@ -8,6 +19,17 @@
     <strong>Details:</strong>
     <%= question.details %>
   </p>
+
+
+  <p>
+    <strong>Author:</strong>
+    <% if question.anonymous == false %>
+      <%= question.enrollment.student.last_name %>
+    <% else %>
+      anonymous
+    <% end %>
+  </p>
+
 
   <p>
     <strong>Importance:</strong>
