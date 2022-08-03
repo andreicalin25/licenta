@@ -1,14 +1,31 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all
+    if current_user.role == "STUDENT"
+      @questions = Question.questions_for_student(current_user.id)
+      @subjects = Subject.subjects_of_student(current_user.id)
+
+      if params[:subject]
+        @questions = Question.questions_for_student_by_subject(current_user.id, params[:subject])
+      end
+    elsif current_user.role == "TEACHER"
+      @questions = Question.questions_for_teacher(current_user.id)
+      @subjects = Subject.subjects_of_teacher(current_user.id)
+
+      if params[:subject]
+        @questions = Question.questions_for_teacher_by_subject(current_user.id, params[:subject])
+      end
+    else
+      @questions = Question.all
+    end
   end
 
-  # GET /questions or /questions.json
+  # GET /my_questions
   def my_questions
-    @my_questions = Question.questions_of_student(current_user.id)
+    @my_questions = Question.asked_by_student(current_user.id)
   end
 
   # GET /questions/1 or /questions/1.json
@@ -23,6 +40,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1/edit
   def edit
+    @my_enrollments = Enrollment.enrollments_of_student(current_user.id)
   end
 
   # POST /questions or /questions.json
@@ -43,6 +61,8 @@ class QuestionsController < ApplicationController
 
   # PATCH/PUT /questions/1 or /questions/1.json
   def update
+    @my_enrollments = Enrollment.enrollments_of_student(current_user.id)
+
     respond_to do |format|
       if @question.update(question_params)
         format.html { redirect_to question_url(@question), notice: "Question was successfully updated." }

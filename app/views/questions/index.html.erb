@@ -1,14 +1,56 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Questions</h1>
 
-<div id="questions">
-  <% @questions.each do |question| %>
-    <%= render question %>
-    <p>
-      <%= link_to "Show this question", question %>
-    </p>
-  <% end %>
-</div>
+<% if current_user.role == "STUDENT" %>
+  <div class="row">
+    <div class="col-8">
+      <% @questions.each do |question| %>
+        <%= render question %>
+        <p>
+          <%= link_to "Show this question", question %>
+        </p>
+      <% end %>
+    </div>
+    <div class="col-4">
+      <% @subjects.each do |subject| %>
+        <p>
+          <%= subject.subject_name + " - " + (subject.activity || "nespecificat") %>
+          <%= link_to subject.subject_name, questions_path(:subject => subject.id) %>
+        </p>
+      <% end %>
+      <%= link_to "Clear", questions_path(:subject => nil) %>
+    </div>
+  </div>
+<% elsif current_user.role == "TEACHER" %>
+  <div class="row">
+    <div class="col-8">
+      <% @questions.each do |question| %>
+        <%= render question %>
+        <p>
+          <%= link_to "Show this question", question %>
+        </p>
+      <% end %>
+    </div>
+    <div class="col-4">
+      <% @subjects.each do |subject| %>
+        <p>
+          <%= subject.subject_name + " - " + (subject.activity || "nespecificat") %>
+          <%= link_to subject.subject_name, questions_path(:subject => subject.id) %>
+        </p>
+      <% end %>
+      <%= link_to "Clear", questions_path(:subject => nil) %>
+
+    </div>
+  </div>
+<% else %>
+  <div id="questions">
+    <% @questions.each do |question| %>
+      <%= render question %>
+      <p>
+        <%= link_to "Show this question", question %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
 
 <%= link_to "New question", new_question_path %>

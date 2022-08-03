@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
   def home
-    @questions = Question.all
+    if current_user
+      redirect_to questions_path
+    else
+      @questions = Question.all
+    end
   end
 end

@@ -7,7 +7,7 @@ class SubjectsController < ApplicationController
   # GET /subjects or /subjects.json
   def index
     if current_user.role == "TEACHER"
-      @subjects_of_teacher = TeachersSubject.subjects_of_teacher(current_user.id)
+      @subjects_of_teacher = TeachersSubject.of_teacher(current_user.id)
       @subjects_not_of_teacher = Subject.subjects_not_of_teacher(current_user.id)
     else
       @subjects = Subject.all
