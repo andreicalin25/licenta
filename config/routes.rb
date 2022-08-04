@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   devise_for :users
   resources :enrollments
   resources :teachers_subjects
-  resources :questions do
-    resources :answers
-  end
+  resources :questions
+  resources :answers
+
   resources :subjects
 
   namespace :admin do

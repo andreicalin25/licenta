@@ -1,8 +1,36 @@
-<%= render @question %>
+<div class="row">
+  <div class="col">
+    <%= render @question %>
 
-<div>
-  <%= link_to "Edit this question", edit_question_path(@question) %> |
-  <%= link_to "Back to questions", questions_path %>
+    <div>
+      <%= link_to "Edit this question", edit_question_path(@question) %> |
+      <%= link_to "Back to questions", questions_path %>
 
-  <%= button_to "Destroy this question", @question, method: :delete %>
+      <%= button_to "Destroy this question", @question, method: :delete %>
+    </div>
+  </div>
+
+  <div class="col">
+    <h1>Answers</h1>
+
+    <div id="new_answer">
+      <%= render "answers/form", answer: @answer%>
+    </div>
+
+    <div id="answers">
+      <% @answers.each do |answer| %>
+        <div id="<%= answer.id %>">
+          <p>
+            <strong>Text:</strong>
+            <%= answer.text %>
+
+            <%= link_to "Edit this answer", edit_answer_path(answer) %>
+
+
+            <%= button_to "Destroy this answer", answer, method: :delete %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

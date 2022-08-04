@@ -30,6 +30,8 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
+    @answers = Answer.of_question(@question.id)
+    @answer = @question.answers.build
   end
 
   # GET /questions/new

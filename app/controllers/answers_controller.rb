@@ -1,19 +1,19 @@
 class AnswersController < ApplicationController
   before_action :set_answer, only: %i[ show edit update destroy ]
 
-  # GET /answers or /answers.json
-  def index
-    @answers = Answer.all
-  end
+  # # GET /answers or /answers.json
+  # def index
+  #   @answers = Answer.all
+  # end
 
-  # GET /answers/1 or /answers/1.json
-  def show
-  end
+  # # GET /answers/1 or /answers/1.json
+  # def show
+  # end
 
-  # GET /answers/new
-  def new
-    @answer = Answer.new
-  end
+  # # GET /answers/new
+  # def new
+  #   @answer = Answer.new
+  # end
 
   # GET /answers/1/edit
   def edit
@@ -22,10 +22,11 @@ class AnswersController < ApplicationController
   # POST /answers or /answers.json
   def create
     @answer = Answer.new(answer_params)
+    @answer.user = current_user
 
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to answer_url(@answer), notice: "Answer was successfully created." }
+        format.html { redirect_to question_url(@answer.question_id), notice: "Answer was successfully created." }
         format.json { render :show, status: :created, location: @answer }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +39,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to answer_url(@answer), notice: "Answer was successfully updated." }
+        format.html { redirect_to question_url(@answer.question_id), notice: "Answer was successfully updated." }
         format.json { render :show, status: :ok, location: @answer }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,10 +50,11 @@ class AnswersController < ApplicationController
 
   # DELETE /answers/1 or /answers/1.json
   def destroy
+    question_id = @answer.question.id
     @answer.destroy
 
     respond_to do |format|
-      format.html { redirect_to answers_url, notice: "Answer was successfully destroyed." }
+      format.html { redirect_to question_url(question_id), notice: "Answer was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +67,6 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:text, :votes)
+      params.require(:answer).permit(:text, :votes, :question_id)
     end
 end

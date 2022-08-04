@@ -11,14 +11,12 @@
     </div>
   <% end %>
 
+  <%= form.hidden_field :question_id %>
+  <%= form.hidden_field :user_id %>
+
   <div>
     <%= form.label :text, style: "display: block" %>
     <%= form.text_area :text %>
-  </div>
-
-  <div>
-    <%= form.label :votes, style: "display: block" %>
-    <%= form.number_field :votes %>
   </div>
 
   <div>
