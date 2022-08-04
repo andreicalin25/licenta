@@ -5,8 +5,7 @@
   </p>
 
   <p>
-    <strong>Votes:</strong>
-    <%= answer.votes %>
+    <strong>Likes:</strong>
+    <%= answer.answer_likes.count %> <%= (answer.answer_likes.count) == 1 ? 'Like' : 'Likes'%>
   </p>
-
 </div>

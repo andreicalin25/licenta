@@ -17,7 +17,6 @@ class QuestionsTest < ApplicationSystemTestCase
     fill_in "Details", with: @question.details
     fill_in "Importance", with: @question.importance
     fill_in "Title", with: @question.title
-    fill_in "Votes", with: @question.votes
     click_on "Create Question"
 
     assert_text "Question was successfully created"
@@ -31,7 +30,6 @@ class QuestionsTest < ApplicationSystemTestCase
     fill_in "Details", with: @question.details
     fill_in "Importance", with: @question.importance
     fill_in "Title", with: @question.title
-    fill_in "Votes", with: @question.votes
     click_on "Update Question"
 
     assert_text "Question was successfully updated"

@@ -37,8 +37,9 @@
   </p>
 
   <p>
-    <strong>Votes:</strong>
-    <%= question.votes %>
+    <strong>Likes:</strong>
+    <%= question.question_likes.count %> <%= (question.question_likes.count) == 1 ? 'Like' : 'Likes'%>
   </p>
+
 
 </div>

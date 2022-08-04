@@ -2,11 +2,20 @@
   <div class="col">
     <%= render @question %>
 
-    <div>
-      <%= link_to "Edit this question", edit_question_path(@question) %> |
-      <%= link_to "Back to questions", questions_path %>
+    <% pre_like = @question.question_likes.find { |like| like.user_id == current_user.id} %>
+    <% if pre_like %>
+      <%= button_to 'Unlike', question_question_like_path(@question, pre_like), method: :delete %>
+    <% else %>
+      <%= button_to 'Like', question_question_likes_path(@question), method: :post %>
+    <% end %>
 
-      <%= button_to "Destroy this question", @question, method: :delete %>
+    <div>
+      <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
+        <%= link_to "Edit this question", edit_question_path(@question) %>
+        <%= button_to "Destroy this question", @question, method: :delete %>
+      <% end %>
+
+      <%= link_to "Back to questions", questions_path %>
     </div>
   </div>
 
@@ -23,12 +32,24 @@
           <p>
             <strong>Text:</strong>
             <%= answer.text %>
-
-            <%= link_to "Edit this answer", edit_answer_path(answer) %>
-
-
-            <%= button_to "Destroy this answer", answer, method: :delete %>
           </p>
+
+          <p>
+            <strong>Likes:</strong>
+            <%= answer.answer_likes.count %> <%= (answer.answer_likes.count) == 1 ? 'Like' : 'Likes'%>
+          </p>
+
+          <% pre_like = answer.answer_likes.find { |like| like.user_id == current_user.id} %>
+          <% if pre_like %>
+            <%= button_to 'Unlike', answer_like_path(pre_like), method: :delete, params: {answer_id: answer.id, id: pre_like.id} %>
+          <% else %>
+            <%= button_to 'Like', answer_likes_path(answer), method: :post, params: {answer_id: answer.id} %>
+          <% end %>
+
+          <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
+            <%= link_to "Edit this answer", edit_answer_path(answer) %>
+            <%= button_to "Destroy this answer", answer, method: :delete %>
+          <% end %>
         </div>
       <% end %>
     </div>

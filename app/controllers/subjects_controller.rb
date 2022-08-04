@@ -3,6 +3,7 @@ class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin, only: %i[ show new create edit update destroy]
   before_action :authorize_admin_or_teacher
+  before_action :authorize_admin_active
 
   # GET /subjects or /subjects.json
   def index

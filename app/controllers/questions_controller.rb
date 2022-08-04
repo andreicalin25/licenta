@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :authorize_admin_creator, only: %i[edit update destroy]
+  before_action :authorize_admin_active
 
   # GET /questions or /questions.json
   def index
@@ -94,6 +96,11 @@ class QuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def question_params
-      params.require(:question).permit(:title, :details, :importance, :votes, :enrollment_id, :anonymous)
+      params.require(:question).permit(:title, :details, :importance, :enrollment_id, :anonymous)
+    end
+
+    def authorize_admin_creator
+      return unless current_user.role != "ADMIN" and current_user.id != @question.enrollment.student.id
+      redirect_to root_path, alert: 'Admins or creator only!'
     end
 end

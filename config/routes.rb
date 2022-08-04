@@ -3,10 +3,13 @@ Rails.application.routes.draw do
   devise_for :users
   resources :enrollments
   resources :teachers_subjects
-  resources :questions
+  resources :questions do
+    resources :question_likes
+  end
+  resources :answer_likes
   resources :answers
-
   resources :subjects
+
 
   namespace :admin do
     resources :users

@@ -4,10 +4,8 @@ one:
   title: MyString
   details: MyText
   importance: 1
-  votes: 1
 
 two:
   title: MyString
   details: MyText
   importance: 1
-  votes: 1

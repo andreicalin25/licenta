@@ -1,5 +1,8 @@
 class AnswersController < ApplicationController
   before_action :set_answer, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :authorize_admin_active
+  before_action :authorize_admin_creator, only: %i[edit update destroy]
 
   # # GET /answers or /answers.json
   # def index
@@ -67,6 +70,11 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:text, :votes, :question_id)
+      params.require(:answer).permit(:text, :question_id)
+    end
+
+    def authorize_admin_creator
+      return unless current_user.role != "ADMIN" and current_user.id != @answer.user.id
+      redirect_to root_path, alert: 'Admins or creator only!'
     end
 end

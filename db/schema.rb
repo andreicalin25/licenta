@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_28_180737) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_04_175353) do
+  create_table "answer_likes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "answer_id", null: false
+    t.integer "user_id", null: false
+    t.index ["answer_id"], name: "index_answer_likes_on_answer_id"
+    t.index ["user_id"], name: "index_answer_likes_on_user_id"
+  end
+
   create_table "answers", force: :cascade do |t|
     t.text "text", null: false
-    t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "question_id", null: false
@@ -31,11 +39,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_180737) do
     t.index ["teachers_subject_id"], name: "index_enrollments_on_teachers_subject_id"
   end
 
+  create_table "question_likes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "question_id", null: false
+    t.integer "user_id"
+    t.index ["question_id"], name: "index_question_likes_on_question_id"
+    t.index ["user_id"], name: "index_question_likes_on_user_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title", null: false
     t.text "details"
     t.integer "importance"
-    t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "enrollment_id", null: false
@@ -77,10 +93,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_180737) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answer_likes", "answers"
+  add_foreign_key "answer_likes", "users"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "enrollments", "teachers_subjects"
   add_foreign_key "enrollments", "users", column: "student_id"
+  add_foreign_key "question_likes", "questions"
+  add_foreign_key "question_likes", "users"
   add_foreign_key "questions", "enrollments"
   add_foreign_key "teachers_subjects", "subjects"
   add_foreign_key "teachers_subjects", "users", column: "teacher_id"
