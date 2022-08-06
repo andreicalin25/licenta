@@ -5,9 +5,6 @@
     <div class="col-8">
       <% @questions.each do |question| %>
         <%= render question %>
-        <p>
-          <%= link_to "Show this question", question %>
-        </p>
       <% end %>
     </div>
     <div class="col-4">
@@ -25,9 +22,6 @@
     <div class="col-8">
       <% @questions.each do |question| %>
         <%= render question %>
-        <p>
-          <%= link_to "Show this question", question %>
-        </p>
       <% end %>
     </div>
     <div class="col-4">
@@ -45,9 +39,6 @@
   <div id="questions">
     <% @questions.each do |question| %>
       <%= render question %>
-      <p>
-        <%= link_to "Show this question", question %>
-      </p>
     <% end %>
   </div>
 <% end %>

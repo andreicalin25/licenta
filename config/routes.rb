@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   resources :answers
   resources :subjects
 
-
   namespace :admin do
     resources :users
   end
@@ -21,4 +20,7 @@ Rails.application.routes.draw do
 
   get "/my_questions" => "questions#my_questions"
   get "/my_answers" => "answers#my_answers"
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
 end
