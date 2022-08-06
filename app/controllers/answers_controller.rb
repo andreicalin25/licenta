@@ -9,6 +9,11 @@ class AnswersController < ApplicationController
   #   @answers = Answer.all
   # end
 
+  # GET /my_answers
+  def my_answers
+    @my_answers = Answer.written_by_user(current_user.id)
+  end
+
   # # GET /answers/1 or /answers/1.json
   # def show
   # end

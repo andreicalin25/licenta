@@ -11,18 +11,18 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body style="background-color: #CAE9F5;">
 
   <% if user_signed_in? %>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-md navbar-light pt-2 pb-4">
+    <nav class="navbar navbar-expand-md navbar-light sticky-top shadow p-3 mb-3 bg-body rounded" style="background-color: white;">
       <div class="container-xxl">
         <!-- navbar brand / title -->
-        <a class="navbar-brand m-3">
-        <span class="text-secondary fw-bold">
-          <%= link_to "Home", root_path %>
-        </span>
-        </a>
+        <div class="nav-item mx-3 mb-2">
+          <a class="nav-link">
+            <%= link_to "Home", root_path, :class => 'text-decoration-none'  %>
+          </a>
+        </div>
 
         <!-- toggle button for mobile nav -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,63 +31,62 @@
 
         <!-- navbar links -->
         <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav mb-3 nav-pills">
+
             <% if current_user.role == "STUDENT" %>
-              <li class="nav-item m-3">
-                <a class="nav-link">
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(enrollments_path) %>">
                   <%= link_to "My enrollments", "/enrollments", :class => 'text-decoration-none'   %>
                 </a>
               </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
-                  <%= link_to "My questions", "/my_questions", :class => 'text-decoration-none'   %>
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(my_questions_path) %>">
+                  <%= link_to "My questions", "/my_questions", :class => 'text-decoration-none' %>
                 </a>
               </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
-                  <%= link_to "My answers", "/answers", :class => 'text-decoration-none'   %>
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(my_answers_path) %>">
+                  <%= link_to "My answers", "/my_answers", :class => 'text-decoration-none'   %>
                 </a>
               </li>
+
             <% elsif current_user.role == "TEACHER" %>
-              <li class="nav-item m-3">
-                <a class="nav-link">
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(subjects_path) %>">
                   <%= link_to "My subjects", "/subjects", :class => 'text-decoration-none'   %>
                 </a>
               </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
-                  <%= link_to "My answers", "/answers", :class => 'text-decoration-none'   %>
+              <li class="nav-item">
+                <a class="nav-link <%= active_class(my_answers_path) %>">
+                  <%= link_to "My answers", "/my_answers", :class => 'text-decoration-none'   %>
                 </a>
               </li>
+
             <% elsif current_user.role == "ADMIN" %>
-              <li class="nav-item m-3">
-                <a class="nav-link">
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(enrollments_path) %>">
                   <%= link_to "Enrollments", enrollments_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(admin_users_path) %>">
                   <%= link_to "Users", admin_users_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>
-              <li class="nav-item m-3">
-                <a class="nav-link">
+              <li class="nav-item mx-3">
+                <a class="nav-link <%= active_class(subjects_path) %>">
                   <%= link_to "Subjects", subjects_path, :class => 'text-decoration-none'   %>
                 </a>
               </li>
             <% end %>
 
-            <li class="nav-item m-3">
-              <a class="nav-link">
+            <li class="nav-item mx-3">
+              <a class="nav-link <%= active_class(admin_user_path(current_user.id)) %>">
                 <%= link_to 'Show profile', admin_user_path(current_user.id), :class => 'text-decoration-none'   %>
               </a>
             </li>
-<!--            <li class="nav-item m-3">-->
-<!--              <a class="nav-link">-->
-                <%#= link_to 'Edit profile', edit_user_registration_path, :class => 'text-decoration-none'   %>
-<!--              </a>-->
-<!--            </li>-->
-            <li class="nav-item m-3">
+
+            <li class="nav-item mx-3">
               <a class="nav-link">
                 <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, :class => 'text-decoration-none'  %>
               </a>

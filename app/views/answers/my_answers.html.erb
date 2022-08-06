@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>My answers</h1>
+
+<div id="answers">
+  <% @my_answers.each do |answer| %>
+    <%= render answer %>
+    <p>
+      <%= link_to "Show related question", question_path(answer.question) %>
+    </p>
+  <% end %>
+</div>
+

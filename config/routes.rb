@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   get "/my_questions" => "questions#my_questions"
-
+  get "/my_answers" => "answers#my_answers"
 end
