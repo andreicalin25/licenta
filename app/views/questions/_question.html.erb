@@ -1,42 +1,3 @@
-<!--<div id="<%#= dom_id question %>">-->
-<!--  <p>-->
-<!--    <strong>Subject:</strong>-->
-<!--    <%#= question.enrollment.subject.subject_name %> --->
-    <%#= question.enrollment.subject.activity %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Teacher:</strong>-->
-    <%#= question.enrollment.teacher.last_name %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Title:</strong>-->
-    <%#= question.title %>
-<!--  </p>-->
-
-
-<!--  <p>-->
-<!--    <strong>Author:</strong>-->
-    <%# if question.anonymous == false %>
-      <%#= question.enrollment.student.last_name %>
-    <%# else %>
-<!--      anonymous-->
-    <%# end %>
-<!--  </p>-->
-
-
-<!--  <p>-->
-<!--    <strong>Importance:</strong>-->
-    <%#= question.importance %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Likes:</strong>-->
-    <%#= question.question_likes.count %> <%#= (question.question_likes.count) == 1 ? 'Like' : 'Likes'%>
-<!--  </p>-->
-<!--</div>-->
-
 <div id="<%= dom_id question %>" class="container my-5">
   <div class="card mx-5">
     <div class="card-header d-flex">
@@ -44,7 +5,7 @@
         <%= question.enrollment.subject.subject_name + " - " + question.enrollment.subject.activity%>
       </div>
       <div class="ms-auto text-muted">
-        <%= question.created_at %>
+        <%= question.enrollment.teachers_subject.teacher.last_name + " " + question.enrollment.teachers_subject.teacher.first_name %>
       </div>
     </div>
     <a href="<%= question_path(question) %>" class="text-decoration-none text-dark">
@@ -55,6 +16,14 @@
         <p class="card-text">
           <%= question.details.length < 200 ? question.details : question.details[0,200] + "..."%>
         </p>
+        <p class="card-text" style="text-align: right">
+          <% if question.enrollment.student_id == current_user.id %>
+            You,
+          <% else %>
+            <%= question.anonymous ? "anonymous," : question.enrollment.student.last_name + " " + question.enrollment.student.first_name + ","%>
+          <% end %>
+          <%= question.created_at %>
+        </p>
       </div>
     </a>
     <div class="card-footer d-flex">
@@ -63,12 +32,9 @@
       </div> |
       <div class="mx-1">
         <%= question.importance %>
-      </div> |
-      <div class="mx-1">
-        <%= question.answers.count %> answers
       </div>
       <div class="ms-auto">
-        <%= question.anonymous ? "anonymous" : question.enrollment.student.last_name + " " + question.enrollment.student.first_name %>
+        <%= question.answers.count %> answers
       </div>
     </div>
   </div>

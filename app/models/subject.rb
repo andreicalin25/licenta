@@ -8,4 +8,8 @@ class Subject < ApplicationRecord
   scope :subjects_of_student, ->(student_id) {where(id: TeachersSubject.of_student(student_id).select(:subject_id))}
   scope :subjects_of_teacher, ->(teacher_id) {where(id: TeachersSubject.of_teacher(teacher_id).select(:subject_id))}
   scope :subjects_not_of_teacher, ->(teacher_id) {where.not(id: TeachersSubject.of_teacher(teacher_id).select(:subject_id))}
+
+  def self.subject_names
+    self.distinct.pluck(:subject_name)
+  end
 end

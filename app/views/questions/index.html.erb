@@ -1,5 +1,8 @@
-<h1>Questions</h1>
-
+<div class="row">
+  <div class="col-8">
+  <h1 class="text-center">Questions</h1>
+  </div>
+</div>
 <% if current_user.role == "STUDENT" %>
   <div class="row">
     <div class="col-8">
@@ -7,14 +10,22 @@
         <%= render question %>
       <% end %>
     </div>
-    <div class="col-4">
-      <% @subjects.each do |subject| %>
-        <p>
-          <%= subject.subject_name + " - " + (subject.activity || "nespecificat") %>
-          <%= link_to subject.subject_name, questions_path(:subject => subject.id) %>
-        </p>
-      <% end %>
-      <%= link_to "Clear", questions_path(:subject => nil) %>
+    <div class="col-4" id="student_subjects">
+      <div class="btn-group-vertical">
+        <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
+
+        <% @subjects.subject_names.each do |subject_name| %>
+          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
+            <%= subject_name %>
+          </button>
+          <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
+            <% @subjects.where(subject_name: subject_name).each do |subject| %>
+              <%= link_to subject.activity || "activitate", questions_path(:subject => subject.id), :class => "btn btn-info w-100" %>
+            <% end %>
+
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% elsif current_user.role == "TEACHER" %>
@@ -24,15 +35,22 @@
         <%= render question %>
       <% end %>
     </div>
-    <div class="col-4">
-      <% @subjects.each do |subject| %>
-        <p>
-          <%= subject.subject_name + " - " + (subject.activity || "nespecificat") %>
-          <%= link_to subject.subject_name, questions_path(:subject => subject.id) %>
-        </p>
-      <% end %>
-      <%= link_to "Clear", questions_path(:subject => nil) %>
+    <div class="col-4" id="student_subjects">
+      <div class="btn-group-vertical">
+        <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
 
+        <% @subjects.subject_names.each do |subject_name| %>
+          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
+            <%= subject_name %>
+          </button>
+          <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
+            <% @subjects.where(subject_name: subject_name).each do |subject| %>
+              <%= link_to subject.activity || "activitate", questions_path(:subject => subject.id), :class => "btn btn-info w-100" %>
+            <% end %>
+
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% else %>

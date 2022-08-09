@@ -1,56 +1,106 @@
 <div class="row">
-  <div class="col">
-    <%= render @question %>
+  <div class="col-7">
 
-    <% pre_like = @question.question_likes.find { |like| like.user_id == current_user.id} %>
-    <% if pre_like %>
-      <%= button_to 'Unlike', question_question_like_path(@question, pre_like), method: :delete %>
-    <% else %>
-      <%= button_to 'Like', question_question_likes_path(@question), method: :post %>
-    <% end %>
+    <div id="<%= dom_id @question %>" class="container my-5">
+      <div class="card mx-5">
+        <div class="card-header d-flex">
+          <div class="me-auto">
+            <%= @question.enrollment.subject.subject_name + " - " + @question.enrollment.subject.activity%>
+          </div>
+          <div class="ms-auto text-muted">
+            <%= @question.enrollment.teachers_subject.teacher.last_name + " " + @question.enrollment.teachers_subject.teacher.first_name %>
+          </div>
+        </div>
+        <a href="<%= question_path(@question) %>" class="text-decoration-none text-dark">
+          <div class="card-body">
+            <h5 class="card-title text-center">
+              <%= @question.title %>
+            </h5>
+            <p class="card-text">
+              <%= @question.details %>
+            </p>
+            <p class="card-text" style="text-align: right">
+              <% if @question.enrollment.student_id == current_user.id %>
+                You,
+              <% else %>
+                <%= @question.anonymous ? "anonymous," : @question.enrollment.student.last_name + " " + @question.enrollment.student.first_name + ","%>
+              <% end %>
+              <%= @question.created_at %>
+            </p>
+          </div>
+        </a>
+        <div class="card-footer d-flex">
+          <div class="mx-1">
+            <% pre_like = @question.question_likes.find { |like| like.user_id == current_user.id} %>
+            <% if pre_like %>
+              <%= button_to "#{@question.question_likes.count} likes", question_question_like_path(@question, pre_like), method: :delete, :class => "btn btn-info mx-1 btn-sm"  %>
+            <% else %>
+              <%= button_to "#{@question.question_likes.count} likes", question_question_likes_path(@question), method: :post, :class => "btn btn-outline-info mx-1 btn-sm"  %>
+            <% end %>
+          </div>
+          <div class="mx-1">
+            <%= @question.importance %>
+          </div>
+
+          <div class="ms-auto d-flex">
+            <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
+              <%= link_to "Edit", edit_question_path(@question), :class => "btn btn-outline-primary mx-1 btn-sm" %>
+              <%= button_to "Delete", @question, form: {data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } }, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <div>
-      <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
-        <%= link_to "Edit this question", edit_question_path(@question) %>
-        <%= button_to "Destroy this question", @question, method: :delete %>
-      <% end %>
-
       <%= link_to "Back to questions", questions_path %>
     </div>
   </div>
 
-  <div class="col">
-    <h1>Answers</h1>
+  <div class="col-5">
+    <h4>Answers</h4>
 
-    <div id="new_answer">
+    <div id="new_answer" class="me-5">
       <%= render "answers/form", answer: @answer%>
     </div>
 
     <div id="answers">
       <% @answers.each do |answer| %>
-        <div id="<%= answer.id %>">
-          <p>
-            <strong>Text:</strong>
-            <%= answer.text %>
-          </p>
-
-          <p>
-            <strong>Likes:</strong>
-            <%= answer.answer_likes.count %> <%= (answer.answer_likes.count) == 1 ? 'Like' : 'Likes'%>
-          </p>
-
-          <% pre_like = answer.answer_likes.find { |like| like.user_id == current_user.id} %>
-          <% if pre_like %>
-            <%= button_to 'Unlike', answer_like_path(pre_like), method: :delete, params: {answer_id: answer.id, id: pre_like.id} %>
-          <% else %>
-            <%= button_to 'Like', answer_likes_path(answer), method: :post, params: {answer_id: answer.id} %>
-          <% end %>
-
-          <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
-            <%= link_to "Edit this answer", edit_answer_path(answer) %>
-            <%= button_to "Destroy this answer", answer, method: :delete %>
-          <% end %>
+        <div id="<%= answer.id %>" class="card me-5 mt-4">
+          <div class="card-body">
+            <p class="card-text">
+              <%= answer.text %>
+            </p>
+            <p class="card-text" style="text-align: right">
+              <% if answer.user_id == current_user.id %>
+                You,
+              <% else %>
+                <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
+              <% end %>
+              <%= answer.created_at %>
+            </p>
+          </div>
+          <div class="card-footer d-flex">
+            <div class="mx-1">
+              <% pre_like = answer.answer_likes.find { |like| like.user_id == current_user.id} %>
+              <% if pre_like %>
+                <%= button_to "#{answer.answer_likes.count} likes", answer_like_path(pre_like), method: :delete, params: {answer_id: answer.id, id: pre_like.id}, :class => "btn btn-info mx-1 btn-sm" %>
+              <% else %>
+                <%= button_to "#{answer.answer_likes.count} likes", answer_likes_path(answer), method: :post, params: {answer_id: answer.id}, :class => "btn btn-outline-info mx-1 btn-sm" %>
+              <% end %>
+            </div>
+            <div class="ms-auto d-flex">
+              <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
+                <%= link_to "Edit", edit_answer_path(answer), :class => "btn btn-outline-primary mx-1 btn-sm" %>
+                <%= button_to "Destroy", answer, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm" %>
+              <% end %>
+            </div>
+          </div>
         </div>
+
+
       <% end %>
     </div>
   </div>
