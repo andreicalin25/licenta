@@ -17,3 +17,5 @@
 /*.nav-item {*/
 /*    mx: 3;*/
 /*}*/
+
+body { min-height: 100vh; }

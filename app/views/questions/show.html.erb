@@ -1,3 +1,7 @@
+<%= content_for :head do %>
+  <%= javascript_import_module_tag "my_scripts" %>
+<% end %>
+
 <div class="row">
   <div class="col-7">
 
@@ -45,8 +49,13 @@
           <div class="ms-auto d-flex">
             <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
               <%= link_to "Edit", edit_question_path(@question), :class => "btn btn-outline-primary mx-1 btn-sm" %>
-              <%= button_to "Delete", @question, form: {data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } }, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm" %>
-            <% end %>
+              <%= button_to "Delete", @question, data: { confirm: 'Are you sure?' }, method: :delete, :class => " btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this question?')"%>
+
+<!--              De scos: este exemplu ca sa folosesc js-->
+<!--              <button id="greet-user-button" onclick="are_you_sure()">Hello!</button>-->
+
+
+          <% end %>
           </div>
         </div>
       </div>
@@ -94,7 +103,7 @@
             <div class="ms-auto d-flex">
               <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
                 <%= link_to "Edit", edit_answer_path(answer), :class => "btn btn-outline-primary mx-1 btn-sm" %>
-                <%= button_to "Destroy", answer, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm" %>
+                <%= button_to "Destroy", answer, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this answer?')"%>
               <% end %>
             </div>
           </div>

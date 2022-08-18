@@ -17,7 +17,7 @@
           <%= question.details.length < 200 ? question.details : question.details[0,200] + "..."%>
         </p>
         <p class="card-text" style="text-align: right">
-          <% if question.enrollment.student_id == current_user.id %>
+          <% if question.enrollment.student_id == (current_user ? current_user.id : nil) %>
             You,
           <% else %>
             <%= question.anonymous ? "anonymous," : question.enrollment.student.last_name + " " + question.enrollment.student.first_name + ","%>

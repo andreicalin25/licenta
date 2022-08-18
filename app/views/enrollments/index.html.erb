@@ -4,17 +4,49 @@
   <div class="row">
     <div class="col">
       <h2> My Enrollments </h2>
-      <% @enrollments_of_student.each do |enrollment| %>
-        <%= render enrollment %>
-        <%= button_to "Remove Enrollment", enrollment_path(enrollment.id), controller: 'enrollments', action_name: 'destroy', method: :delete %>
-      <% end %>
+      <table class="table table-light table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Subject name</th>
+            <th scope="col">Subject activity</th>
+            <th scope="col">Teacher</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @enrollments_of_student.each do |enrollment| %>
+          <tr>
+            <td><%= enrollment.subject.subject_name %></td>
+            <td><%= enrollment.subject.activity %></td>
+            <td><%= enrollment.teacher.last_name + " " + enrollment.teacher.first_name %></td>
+            <td><%= button_to "Remove", enrollment_path(enrollment.id), controller: 'enrollments', action_name: 'destroy', method: :delete, :class => "btn btn-outline-danger btn-sm", :onclick => "return confirm('Are you sure you want to delete this enrollment? (By doing so you will also delete all questions related to this enrollment)')" %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
     <div class="col">
       <h2> Other Enrollments </h2>
-      <% @teachers_subjects_not_of_student.each do |teachers_subject| %>
-        <%= teachers_subject.subject.subject_name %> (<%= teachers_subject.subject.activity %>) -> <%= teachers_subject.teacher.last_name %> <%= teachers_subject.teacher.first_name %>
-        <%= button_to "Add Enrollment", controller: 'enrollments', action_name: 'create', method: :post, data: {student_id: current_user.id, teachers_subject_id: teachers_subject.id} %>
-      <% end %>
+      <table class="table table-light table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Subject name</th>
+          <th scope="col">Subject activity</th>
+          <th scope="col">Teacher</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @teachers_subjects_not_of_student.each do |teachers_subject| %>
+          <tr>
+            <td><%= teachers_subject.subject.subject_name %></td>
+            <td><%= teachers_subject.subject.activity %></td>
+            <td><%= teachers_subject.teacher.last_name + " " + teachers_subject.teacher.first_name %></td>
+            <td><%= button_to "Add Enrollment" , controller: 'enrollments', action_name: 'create', method: :post, data: {student_id: current_user.id, teachers_subject_id: teachers_subject.id}, class: "btn btn-outline-success btn-sm"%></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 <% elsif current_user.role == "ADMIN" %>

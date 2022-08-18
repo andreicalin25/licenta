@@ -10,7 +10,7 @@
         <%= link_to "Edit this user", edit_admin_user_path(@user) %> |
         <%= link_to "Back to users", admin_users_path %>
 
-        <%= button_to 'Delete this user', admin_user_path(@user), :confirm => 'Are you sure?', :method => :delete %>
+        <%= button_to 'Delete this user', admin_user_path(@user), :method => :delete, :onclick => "return confirm('Are you sure you want to delete this user? (By doing so you will also delete all enrollments and questions related to this user)')" %>
       </div>
 
       <% if @user.role == "TEACHER" %>
@@ -26,7 +26,7 @@
               <strong>Activity:</strong>
               <%= teachers_subject.subject.activity %>
             </p>
-            <%= button_to "Remove Subject", teachers_subject_path(teachers_subject.id), controller: 'teachers_subjects', action_name: 'destroy', method: :delete %>
+            <%= button_to "Remove Subject", teachers_subject_path(teachers_subject.id), controller: 'teachers_subjects', action_name: 'destroy', method: :delete, :onclick => "return confirm('Are you sure you want to delete this answer? (By doing so you will also delete all enrollments and questions related to this teacher's subject)" %>
           <% end %>
         </div>
       <% end %>
