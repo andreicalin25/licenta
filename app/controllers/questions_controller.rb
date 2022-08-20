@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :set_question, only: %i[ show edit update destroy remove_file]
   before_action :authenticate_user!
   before_action :authorize_admin_creator, only: %i[edit update destroy]
   before_action :authorize_admin_active
@@ -78,6 +78,20 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def remove_file
+    @my_enrollments = Enrollment.enrollments_of_student(current_user.id)
+
+    respond_to do |format|
+      if @question.files.find(params[:file_id]).purge
+        format.html { render :edit, status: :ok, notice: "File was removed." }
+        format.json { render :edit, status: :ok, location: @question }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /questions/1 or /questions/1.json
   def destroy
     @question.destroy
@@ -96,7 +110,7 @@ class QuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def question_params
-      params.require(:question).permit(:title, :details, :importance, :enrollment_id, :anonymous)
+      params.require(:question).permit(:title, :details, :importance, :enrollment_id, :anonymous, files: [])
     end
 
     def authorize_admin_creator

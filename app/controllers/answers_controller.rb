@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: %i[ show edit update destroy ]
+  before_action :set_answer, only: %i[ show edit update destroy remove_file]
   before_action :authenticate_user!
   before_action :authorize_admin_active
   before_action :authorize_admin_creator, only: %i[edit update destroy]
@@ -56,6 +56,18 @@ class AnswersController < ApplicationController
     end
   end
 
+  def remove_file
+    respond_to do |format|
+      if @answer.files.find(params[:file_id]).purge
+        format.html { render :edit, status: :ok, notice: "File was removed." }
+        format.json { render :edit, status: :ok, location: @question }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /answers/1 or /answers/1.json
   def destroy
     question_id = @answer.question.id
@@ -75,7 +87,7 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:text, :question_id)
+      params.require(:answer).permit(:text, :question_id, files: [])
     end
 
     def authorize_admin_creator

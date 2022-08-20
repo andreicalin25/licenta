@@ -25,6 +25,18 @@
   </div>
 
   <div>
+    <%= form.label :files, style: "display: block" %>
+    <%= form.file_field :files, multiple: true %>
+  </div>
+
+  <div>
     <%= form.submit %>
+  </div>
+<% end %>
+
+<% @answer.files.each do |file| %>
+  <div>
+    <%= file.filename %>
+    <%= button_to 'Remove file', answer_remove_file_path(@answer, file_id: file.id) %>
   </div>
 <% end %>

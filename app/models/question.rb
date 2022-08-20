@@ -6,6 +6,7 @@ class Question < ApplicationRecord
   has_many :answers
   has_many :question_likes, dependent: :destroy
 
+  has_many_attached :files, dependent: :destroy
 
   scope :asked_by_student, ->(student_id) {joins(:enrollment).where('enrollments.student_id' => student_id)}
   scope :questions_for_student, ->(student_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.of_student(student_id) } )}

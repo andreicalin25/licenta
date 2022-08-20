@@ -15,14 +15,19 @@
             <%= @question.enrollment.teachers_subject.teacher.last_name + " " + @question.enrollment.teachers_subject.teacher.first_name %>
           </div>
         </div>
-        <a href="<%= question_path(@question) %>" class="text-decoration-none text-dark">
-          <div class="card-body">
-            <h5 class="card-title text-center">
-              <%= @question.title %>
-            </h5>
-            <p class="card-text">
-              <%= @question.details %>
-            </p>
+        <div class="card-body">
+          <h5 class="card-title text-center">
+            <%= @question.title %>
+          </h5>
+          <p class="card-text">
+            <%= @question.details %>
+          </p>
+
+          <% if @question.files.attached? %>
+
+            <%= render 'questions/question_attachments', question: @question %>
+
+          <% else %>
             <p class="card-text" style="text-align: right">
               <% if @question.enrollment.student_id == current_user.id %>
                 You,
@@ -31,8 +36,8 @@
               <% end %>
               <%= @question.created_at %>
             </p>
-          </div>
-        </a>
+          <% end %>
+        </div>
         <div class="card-footer d-flex">
           <div class="mx-1">
             <% pre_like = @question.question_likes.find { |like| like.user_id == current_user.id} %>
@@ -82,14 +87,20 @@
             <p class="card-text">
               <%= answer.text %>
             </p>
-            <p class="card-text" style="text-align: right">
-              <% if answer.user_id == current_user.id %>
-                You,
-              <% else %>
-                <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
-              <% end %>
-              <%= answer.created_at %>
-            </p>
+            <% if answer.files.attached? %>
+
+              <%= render 'questions/answer_attachments', answer: answer %>
+
+            <% else %>
+              <p class="card-text" style="text-align: right">
+                <% if answer.user_id == current_user.id %>
+                  You,
+                <% else %>
+                  <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
+                <% end %>
+                <%= answer.created_at %>
+              </p>
+            <% end %>
           </div>
           <div class="card-footer d-flex">
             <div class="mx-1">
