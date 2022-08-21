@@ -8,6 +8,9 @@ class Question < ApplicationRecord
 
   has_many_attached :files, dependent: :destroy
 
+  validates :importance, inclusion: { in: [1, 2, 3],
+                                message: "%{value} must be present - chose 1, 2 or 3" }, allow_nil: false
+
   scope :asked_by_student, ->(student_id) {joins(:enrollment).where('enrollments.student_id' => student_id)}
   scope :questions_for_student, ->(student_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.of_student(student_id) } )}
   scope :questions_for_student_by_subject, ->(student_id, subject_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.where(subject_id: subject_id).of_student(student_id) } )}

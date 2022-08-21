@@ -59,6 +59,7 @@ class QuestionsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end
@@ -74,6 +75,7 @@ class QuestionsController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end
@@ -85,6 +87,7 @@ class QuestionsController < ApplicationController
       if @question.files.find(params[:file_id]).purge
         format.html { render :edit, status: :ok, notice: "File was removed." }
         format.json { render :edit, status: :ok, location: @question }
+        format.turbo_stream { render :form_update, status: :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }

@@ -11,32 +11,38 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :question_id %>
+  <%= form.hidden_field :question_id, value: question.id %>
   <%= form.hidden_field :user_id %>
 
-  <div>
-    <%= form.label :text, style: "display: block" %>
+  <div class="my-1">
+    <%= form.label "Text:", style: "display: block" %>
     <%= form.text_area :text, :class => "form-control"%>
   </div>
 
-  <div class="d-flex my-3">
-    <%= form.label :anonymous, style: "display: block", :class => "me-3" %>
-    <%= form.check_box :anonymous %>
+  <div class="my-1">
+    <%= form.label "Files:", style: "display: block" %>
+    <%= form.file_field :files, multiple: true, class: "form-control form-control-sm" %>
   </div>
 
-  <div>
-    <%= form.label :files, style: "display: block" %>
-    <%= form.file_field :files, multiple: true %>
+  <div class="d-flex my-1">
+    <%= form.label "Anonymous:", class: "me-3 mt-2 align-bottom" %>
+    <%= form.check_box :anonymous, class: "mt-2" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="d-grid my-3">
+    <%= form.submit class: "btn btn-outline-primary" %>
   </div>
 <% end %>
 
-<% @answer.files.each do |file| %>
-  <div>
-    <%= file.filename %>
-    <%= button_to 'Remove file', answer_remove_file_path(@answer, file_id: file.id) %>
-  </div>
+<% if answer.files.attached? %>
+  <br>
+  <h5>Remove files</h5>
+  <table class="table table-hover table-borderless table-sm">
+    <% answer.files.each do |file| %>
+      <tr class="d-flex">
+        <td class="flex-fill"> <%= file.filename %> </td>
+        <td class="ms-auto"> <%= button_to 'Remove', answer_remove_file_path(answer, file_id: file.id), class: "btn btn-sm btn-square-md btn-outline-danger" %> </td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

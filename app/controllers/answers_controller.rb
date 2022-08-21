@@ -18,13 +18,15 @@ class AnswersController < ApplicationController
   # def show
   # end
 
-  # # GET /answers/new
-  # def new
-  #   @answer = Answer.new
-  # end
+  # GET /answers/new
+  def new
+    @answer = Answer.new
+    @question = Question.find(params[:question_id])
+  end
 
   # GET /answers/1/edit
   def edit
+    @question = @answer.question
   end
 
   # POST /answers or /answers.json
@@ -39,12 +41,15 @@ class AnswersController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /answers/1 or /answers/1.json
   def update
+    @question = @answer.question
+
     respond_to do |format|
       if @answer.update(answer_params)
         format.html { redirect_to question_url(@answer.question_id), notice: "Answer was successfully updated." }
@@ -52,18 +57,23 @@ class AnswersController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end
 
   def remove_file
+    @question = @answer.question
+
     respond_to do |format|
       if @answer.files.find(params[:file_id]).purge
+        format.turbo_stream { render :form_update, status: :ok }
         format.html { render :edit, status: :ok, notice: "File was removed." }
         format.json { render :edit, status: :ok, location: @question }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
+        format.turbo_stream { render :form_update, status: :unprocessable_entity }
       end
     end
   end

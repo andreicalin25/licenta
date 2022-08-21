@@ -1,5 +1,19 @@
 <div id="<%= dom_id question %>" class="container my-5">
   <div class="card mx-5">
+
+  <% if question.importance == 3 %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="High-priority" style="text-decoration: none; color: white;">!!!</a>
+    </span>
+  <% elsif question.importance == 2 %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Medium-priority" style="text-decoration: none; color: white">!!</a>
+    </span>
+  <% else %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Low-priority" style="text-decoration: none; color: white">!</a>
+    </span>
+  <% end %>
     <div class="card-header d-flex">
       <div class="me-auto">
         <%= question.enrollment.subject.subject_name + " - " + question.enrollment.subject.activity%>
@@ -29,9 +43,6 @@
     <div class="card-footer d-flex">
       <div class="mx-1">
         <%= question.question_likes.count %> likes
-      </div> |
-      <div class="mx-1">
-        <%= question.importance %>
       </div>
       <div class="ms-auto">
         <%= question.answers.count %> answers

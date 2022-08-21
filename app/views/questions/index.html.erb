@@ -11,7 +11,11 @@
       <% end %>
     </div>
     <div class="col-4" id="student_subjects">
-      <div class="btn-group-vertical">
+      <div class="row my-3">
+        <%= link_to "New question", new_question_path, class: "btn btn-outline-primary", data: { turbo_frame: "modal" }%>
+      </div>
+
+      <div class="row btn-group-vertical">
         <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
 
         <% @subjects.subject_names.each do |subject_name| %>
@@ -61,5 +65,3 @@
   </div>
 <% end %>
 
-
-<%= link_to "New question", new_question_path %>

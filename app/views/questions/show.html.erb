@@ -7,6 +7,21 @@
 
     <div id="<%= dom_id @question %>" class="container my-5">
       <div class="card mx-5">
+
+        <% if @question.importance == 3 %>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="High-priority" style="text-decoration: none; color: white">!!!</a>
+          </span>
+        <% elsif @question.importance == 2 %>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+            <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Medium-priority" style="text-decoration: none; color: white">!!</a>
+          </span>
+        <% else %>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+            <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Low-priority" style="text-decoration: none; color: white">!</a>
+          </span>
+        <% end %>
+
         <div class="card-header d-flex">
           <div class="me-auto">
             <%= @question.enrollment.subject.subject_name + " - " + @question.enrollment.subject.activity%>
@@ -47,14 +62,11 @@
               <%= button_to "#{@question.question_likes.count} likes", question_question_likes_path(@question), method: :post, :class => "btn btn-outline-info mx-1 btn-sm"  %>
             <% end %>
           </div>
-          <div class="mx-1">
-            <%= @question.importance %>
-          </div>
 
           <div class="ms-auto d-flex">
             <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
-              <%= link_to "Edit", edit_question_path(@question), :class => "btn btn-outline-primary mx-1 btn-sm" %>
-              <%= button_to "Delete", @question, data: { confirm: 'Are you sure?' }, method: :delete, :class => " btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this question?')"%>
+              <%= link_to "Edit", edit_question_path(@question), class: "btn btn-outline-primary mx-1 btn-sm", data: { turbo_frame: "modal" } %>
+              <%= button_to "Delete", @question, data: { confirm: 'Are you sure?' }, method: :delete, class: " btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this question?')"%>
 
 <!--              De scos: este exemplu ca sa folosesc js-->
 <!--              <button id="greet-user-button" onclick="are_you_sure()">Hello!</button>-->
@@ -76,13 +88,20 @@
   <div class="col-5">
     <h4>Answers</h4>
 
-    <div id="new_answer" class="me-5">
-      <%= render "answers/form", answer: @answer%>
-    </div>
+<!--    <div id="new_answer" class="me-5">-->
+      <%#= render "answers/form", answer: @answer%>
+<!--    </div>-->
+
+    <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary ", data: { turbo_frame: "modal" }%>
 
     <div id="answers">
       <% @answers.each do |answer| %>
         <div id="<%= answer.id %>" class="card me-5 mt-4">
+          <% if answer.user.role == "TEACHER" %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+              <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Official answer" style="text-decoration: none; color: white;">&#10003;</a>
+            </span>
+          <% end %>
           <div class="card-body">
             <p class="card-text">
               <%= answer.text %>
@@ -113,8 +132,8 @@
             </div>
             <div class="ms-auto d-flex">
               <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
-                <%= link_to "Edit", edit_answer_path(answer), :class => "btn btn-outline-primary mx-1 btn-sm" %>
-                <%= button_to "Destroy", answer, method: :delete, :class => "btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this answer?')"%>
+                <%= link_to "Edit", edit_answer_path(answer), class: "btn btn-outline-primary mx-1 btn-sm", data: { turbo_frame: "modal" } %>
+                <%= button_to "Destroy", answer, method: :delete, class: "btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this answer?')"%>
               <% end %>
             </div>
           </div>
