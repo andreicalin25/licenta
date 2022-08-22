@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ show edit update destroy activate]
   before_action :authenticate_user!
   before_action :authorize_admin, only: %i[ index new create edit update destroy ]
   before_action :authorize_self_or_admin, only: %i[ show ]
@@ -7,6 +7,18 @@ class Admin::UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
+    if params[:teachers] == 'true'
+      @users = @users.teachers
+    end
+    if params[:students] == 'true'
+      @users = @users.students
+    end
+    if params[:active] == 'true'
+      @users = @users.active
+    end
+    if params[:inactive] == 'true'
+      @users = @users.inactive
+    end
   end
 
   # GET /users/1 or /users/1.json
@@ -46,6 +58,18 @@ class Admin::UsersController < ApplicationController
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def activate
+    print(@user)
+    respond_to do |format|
+      if @user.update(activated: true)
+        format.html { redirect_to admin_users_url, notice: "User was successfully updated." }
+        format.json { render :show, status: :ok, location: @user }
+      else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

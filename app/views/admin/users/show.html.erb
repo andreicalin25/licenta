@@ -6,7 +6,7 @@
           <%= render @user %>
           <div class="d-flex mt-4 justify-content-between">
             <%= link_to "Edit profile", edit_user_registration_path(@user), class: "btn btn-outline-primary me-5" %>
-            <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger ms-auto" %>
+            <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger" %>
           </div>
         </div>
       </div>
@@ -14,11 +14,19 @@
   <% else %>
     <div class="row">
       <div class="col">
-        <%= render @user %>
-        <%= link_to "Edit this user", edit_admin_user_path(@user) %> |
-        <%= link_to "Back to users", admin_users_path %>
+        <div class="row justify-content-md-center mb-5">
+          <div class="card col-8 mt-5">
+            <div class="card-body" id="<%= dom_id @user %>">
+              <%= render @user %>
+              <div class="d-flex mt-4 justify-content-between">
+                <%= link_to "Edit this user", edit_admin_user_path(@user), class: "btn btn-outline-primary me-5" %>
+                <%= link_to "Back to users", admin_users_path, class: "btn btn-outline-primary me-5" %>
 
-        <%= button_to 'Delete this user', admin_user_path(@user), :method => :delete, :onclick => "return confirm('Are you sure you want to delete this user? (By doing so you will also delete all enrollments and questions related to this user)')" %>
+                <%= button_to 'Delete this user', admin_user_path(@user), :method => :delete, :onclick => "return confirm('Are you sure you want to delete this user? (By doing so you will also delete all enrollments and questions related to this user)')", class: "btn btn-outline-danger" %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <% if @user.role == "TEACHER" %>

@@ -1,10 +1,57 @@
-<h1>Editing user</h1>
+<div class="row justify-content-md-center mb-5">
+  <div class="card col-4 mt-5">
+    <div class="card-body">
+      <h3>Edit <%= @user.first_name %>'s profile</h3>
 
-<%= render "form", user: @user %>
+      <%= form_with(model: @user, url: admin_user_path(@user), method: "patch") do |f| %>
 
-<br>
+        <div class="field my-2">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
 
-<div>
-  <%= link_to "Show this user", admin_user_path(@user) %> |
-  <%= link_to "Back to users", admin_users_path %>
+        <div class="field my-2">
+          <%= f.label :last_name %><br />
+          <%= f.text_field :last_name, autocomplete: "last-name", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :first_name %><br />
+          <%= f.text_field :first_name, autocomplete: "first-name", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :phone %><br />
+          <%= f.text_field :phone, autocomplete: "phone", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :role %><br />
+          <%= f.select :role, [['Student', 'STUDENT'], ['Teacher', 'TEACHER']], class: "form-select" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :activated %><br />
+          <%= f.check_box :activated %>
+        </div>
+
+        <% if @user.role == 'STUDENT' %>
+          <div class="field my-2">
+            <%= f.label :group %><br />
+            <%= f.text_field :group, autocomplete: "group", class: "form-control" %>
+          </div>
+        <% end %>
+
+        <div class="actions d-grid gap-2 col mx-auto">
+          <%= f.submit "Update", class: "btn btn-outline-primary my-3" %>
+        </div>
+      <% end %>
+
+      <div class="d-flex ">
+        <%= link_to "Show this user", admin_user_path(@user), class: "btn btn-outline-primary my-3" %>
+        <%= link_to "Back to users", admin_users_path, class: "btn btn-outline-primary my-3 ms-auto" %>
+      </div>
+    </div>
+  </div>
 </div>
+
