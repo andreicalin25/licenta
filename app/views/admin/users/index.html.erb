@@ -1,12 +1,37 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Users</h1>
 
 <div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", admin_user_path(user), :method => :get %>
-    </p>
-  <% end %>
+  <% @users.in_groups_of(2).each do |user_pair| %>
+    <div class="row">
+      <div class="col">
+        <div class="row justify-content-md-center mb-5">
+          <div class="card col-9 mt-5">
+            <div class="card-body" id="<%= dom_id user_pair.first %>">
+
+              <%= render user_pair.first %>
+              <p>
+                <%= link_to "Show this user", admin_user_path(user_pair.first), :method => :get, class: "btn btn-outline-primary mt-3" %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <% if user_pair.second != nil %>
+            <div class="row justify-content-md-center mb-5">
+              <div class="card col-9 mt-5">
+                <div class="card-body" id="<%= dom_id user_pair.second %>">
+
+                  <%= render user_pair.second %>
+                  <p>
+                    <%= link_to "Show this user", admin_user_path(user_pair.second), :method => :get, class: "btn btn-outline-primary mt-3" %>
+                  </p>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+<% end %>
 </div>

@@ -1,10 +1,9 @@
-<h1>Enrollments</h1>
 
 <% if current_user.role == "STUDENT" %>
-  <div class="row">
-    <div class="col">
+  <div class="row mt-5">
+    <div class="col ms-5 me-3">
       <h2> My Enrollments </h2>
-      <table class="table table-light table-hover">
+      <table class="table table-light table-hover rounded-pill">
         <thead>
           <tr>
             <th scope="col">Subject name</th>
@@ -25,7 +24,7 @@
         </tbody>
       </table>
     </div>
-    <div class="col">
+    <div class="col ms-3 me-5">
       <h2> Other Enrollments </h2>
       <table class="table table-light table-hover">
         <thead>
@@ -42,7 +41,7 @@
             <td><%= teachers_subject.subject.subject_name %></td>
             <td><%= teachers_subject.subject.activity %></td>
             <td><%= teachers_subject.teacher.last_name + " " + teachers_subject.teacher.first_name %></td>
-            <td><%= button_to "Add Enrollment" , controller: 'enrollments', action_name: 'create', method: :post, data: {student_id: current_user.id, teachers_subject_id: teachers_subject.id}, class: "btn btn-outline-success btn-sm"%></td>
+            <td class="addEnrollment"><%= button_to "Add", class: "btn btn-outline-success btn-sm", controller: 'enrollments', action_name: 'create', method: :post, data: {student_id: current_user.id, teachers_subject_id: teachers_subject.id} %></td>
           </tr>
         <% end %>
         </tbody>
@@ -59,3 +58,12 @@
     <% end %>
   </div>
 <% end %>
+
+<script>
+    var elements = document.getElementsByClassName("addEnrollment");
+
+    for (let i = 0; i < elements.length; i++) {
+        // console.log(elements[i].getElementsByTagName("button")[0])
+        elements[i].getElementsByTagName("button")[0].classList.add("btn", "btn-outline-success", "btn-sm")
+    }
+</script>

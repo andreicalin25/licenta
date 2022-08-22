@@ -11,22 +11,21 @@
       <% end %>
     </div>
     <div class="col-4" id="student_subjects">
-      <div class="row my-3">
+      <div class="row my-3 col-6">
         <%= link_to "New question", new_question_path, class: "btn btn-outline-primary", data: { turbo_frame: "modal" }%>
       </div>
 
-      <div class="row btn-group-vertical">
+      <div class="row btn-group-vertical col-6">
         <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
 
         <% @subjects.subject_names.each do |subject_name| %>
-          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
+          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapse<%= subject_name.delete(" \t\r\n") %>">
             <%= subject_name %>
           </button>
           <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
             <% @subjects.where(subject_name: subject_name).each do |subject| %>
               <%= link_to subject.activity || "activitate", questions_path(:subject => subject.id), :class => "btn btn-info w-100" %>
             <% end %>
-
           </div>
         <% end %>
       </div>

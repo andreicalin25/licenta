@@ -1,8 +1,16 @@
 <div>
   <% if (current_user.id == @user.id) %>
-    <%= render @user %>
-    <%= link_to "Edit profile", edit_user_registration_path(@user) %> |
-    <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete %>
+    <div class="row justify-content-md-center mb-5">
+      <div class="card col-4 mt-5">
+        <div class="card-body" id="<%= dom_id @user %>">
+          <%= render @user %>
+          <div class="d-flex mt-4 justify-content-between">
+            <%= link_to "Edit profile", edit_user_registration_path(@user), class: "btn btn-outline-primary me-5" %>
+            <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger ms-auto" %>
+          </div>
+        </div>
+      </div>
+    </div>
   <% else %>
     <div class="row">
       <div class="col">

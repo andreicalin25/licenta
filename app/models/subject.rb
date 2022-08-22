@@ -1,7 +1,8 @@
 class Subject < ApplicationRecord
-  has_many :teachers_subjects
+  has_many :teachers_subjects, dependent: :destroy
   has_many :teachers, through: :teachers_subjects
 
+  validates :subject_name, presence: true
   validates :activity, inclusion: { in: %w(Curs Seminar Laborator ),
                                 message: "%{value} must be Curs/Seminar/Laborator", allow_blank: true }, allow_nil: true
 

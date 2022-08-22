@@ -67,22 +67,12 @@
             <% if current_user.role == "ADMIN" or current_user.id == @question.enrollment.student.id %>
               <%= link_to "Edit", edit_question_path(@question), class: "btn btn-outline-primary mx-1 btn-sm", data: { turbo_frame: "modal" } %>
               <%= button_to "Delete", @question, data: { confirm: 'Are you sure?' }, method: :delete, class: " btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this question?')"%>
-
-<!--              De scos: este exemplu ca sa folosesc js-->
-<!--              <button id="greet-user-button" onclick="are_you_sure()">Hello!</button>-->
-
-
           <% end %>
           </div>
         </div>
       </div>
     </div>
 
-
-
-    <div>
-      <%= link_to "Back to questions", questions_path %>
-    </div>
   </div>
 
   <div class="col-5">

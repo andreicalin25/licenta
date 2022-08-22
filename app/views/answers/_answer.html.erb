@@ -1,11 +1,44 @@
-<div id="<%= dom_id answer %>">
-  <p>
-    <strong>Text:</strong>
-    <%= answer.text %>
-  </p>
+<div id="<%= answer.id %>" class="card me-5 mt-4">
+  <% if answer.user.role == "TEACHER" %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+              <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Official answer" style="text-decoration: none; color: white;">&#10003;</a>
+            </span>
+  <% end %>
+  <a href="<%= question_path(answer.question) %>" class="text-decoration-none text-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="Go to related question">
+    <div class="card-body">
+      <p class="card-text">
+        <%= answer.text %>
+      </p>
+      <% if answer.files.attached? %>
 
-  <p>
-    <strong>Likes:</strong>
-    <%= answer.answer_likes.count %> <%= (answer.answer_likes.count) == 1 ? 'Like' : 'Likes'%>
-  </p>
+        <%= render 'questions/answer_attachments', answer: answer %>
+
+      <% else %>
+        <p class="card-text" style="text-align: right">
+          <% if answer.user_id == current_user.id %>
+            You,
+          <% else %>
+            <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
+          <% end %>
+          <%= answer.created_at %>
+        </p>
+      <% end %>
+    </div>
+  </a>
+  <div class="card-footer d-flex">
+    <div class="mx-1">
+      <% pre_like = answer.answer_likes.find { |like| like.user_id == current_user.id} %>
+      <% if pre_like %>
+        <%= button_to "#{answer.answer_likes.count} likes", answer_like_path(pre_like), method: :delete, params: {answer_id: answer.id, id: pre_like.id}, :class => "btn btn-info mx-1 btn-sm" %>
+      <% else %>
+        <%= button_to "#{answer.answer_likes.count} likes", answer_likes_path(answer), method: :post, params: {answer_id: answer.id}, :class => "btn btn-outline-info mx-1 btn-sm" %>
+      <% end %>
+    </div>
+    <div class="ms-auto d-flex">
+      <% if current_user.role == "ADMIN" or current_user.id == answer.user.id %>
+        <%= link_to "Edit", edit_answer_path(answer), class: "btn btn-outline-primary mx-1 btn-sm", data: { turbo_frame: "modal" } %>
+        <%= button_to "Destroy", answer, method: :delete, class: "btn btn-outline-danger mx-1 btn-sm", :onclick => "return confirm('Are you sure you want to delete this answer?')"%>
+      <% end %>
+    </div>
+  </div>
 </div>

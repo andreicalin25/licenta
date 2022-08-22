@@ -3,10 +3,13 @@ class Question < ApplicationRecord
   has_one :student, through: :enrollment
   has_one :teachers_subject, through: :enrollment
 
-  has_many :answers
+  has_many :answers, dependent: :destroy
   has_many :question_likes, dependent: :destroy
 
   has_many_attached :files, dependent: :destroy
+
+  validates :title, presence: true, length: {minimum: 5}
+  validates :title, presence: true, length: {maximum: 150, too_long: "Please keep the title short and specify the details in the appropriate section"}
 
   validates :importance, inclusion: { in: [1, 2, 3],
                                 message: "%{value} must be present - chose 1, 2 or 3" }, allow_nil: false

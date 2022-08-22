@@ -2,7 +2,7 @@ class Enrollment < ApplicationRecord
   belongs_to :student, :class_name => "User"
   belongs_to :teachers_subject
 
-  has_many :questions
+  has_many :questions, dependent: :destroy
   has_one :subject, through: :teachers_subject
   has_one :teacher, through: :teachers_subject
 
