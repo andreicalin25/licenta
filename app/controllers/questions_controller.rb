@@ -6,22 +6,30 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
+    if params[:q].present? and params[:q][:title_or_details_i_cont_any].present?
+      words = params[:q][:title_or_details_i_cont_any].split(" ")
+      params[:q][:title_or_details_i_cont_any] = words
+    end
+
+    @q = Question.ransack(params[:q])
+    @questions = @q.result(distinct: true)
+
     if current_user.role == "STUDENT"
-      @questions = Question.questions_for_student(current_user.id)
+      @questions = @questions.questions_for_student(current_user.id)
       @subjects = Subject.subjects_of_student(current_user.id)
 
       if params[:subject]
-        @questions = Question.questions_for_student_by_subject(current_user.id, params[:subject])
+        @questions = @questions.questions_for_student_by_subject(current_user.id, params[:subject])
       end
     elsif current_user.role == "TEACHER"
-      @questions = Question.questions_for_teacher(current_user.id)
+      @questions = @questions.questions_for_teacher(current_user.id)
       @subjects = Subject.subjects_of_teacher(current_user.id)
 
       if params[:subject]
-        @questions = Question.questions_for_teacher_by_subject(current_user.id, params[:subject])
+        @questions = @questions.questions_for_teacher_by_subject(current_user.id, params[:subject])
       end
     else
-      @questions = Question.all
+      @questions = @questions.all
     end
     
     @questions = @questions.sort_by { |q| q.created_at }.reverse
@@ -52,7 +60,15 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
+    if params[:q].present? and params[:q][:text_i_cont_any].present?
+      words = params[:q][:text_i_cont_any].split(" ")
+      params[:q][:text_i_cont_any] = words
+    end
+
     @answers = Answer.of_question(@question.id)
+    @q = @answers.ransack(params[:q])
+    @answers = @q.result(distinct: true)
+
     @answer = @question.answers.build
 
     if params[:sort] == 'time-cresc'

@@ -82,13 +82,27 @@
       <%#= render "answers/form", answer: @answer%>
 <!--    </div>-->
 
-    <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary ", data: { turbo_frame: "modal" }%>
+    <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary mb-3", data: { turbo_frame: "modal" }%>
 
-    <div class="btn-group" role="group" aria-label="Basic">
-      <%= link_to 'time&#8743;'.html_safe, question_path(@question, sort: 'time-cresc'), :class => "btn btn-info w-100" %>
-      <%= link_to 'time&#8744;'.html_safe, question_path(@question, sort: 'time-desc'), :class => "btn btn-info w-100" %>
-      <%= link_to 'likes&#8743;'.html_safe, question_path(@question, sort: 'likes-cresc'), :class => "btn btn-info w-100" %>
-      <%= link_to 'likes&#8744;'.html_safe, question_path(@question, sort: 'likes-desc'), :class => "btn btn-info w-100" %>
+    <div class="row mt-3 me-3">
+      <div class="btn-group col" role="group" aria-label="Basic">
+        <%= link_to 'time&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-info w-100" %>
+        <%= link_to 'time&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-desc')), :class => "btn btn-info w-100" %>
+        <%= link_to 'likes&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-info w-100" %>
+        <%= link_to 'likes&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-info w-100" %>
+      </div>
+
+      <div class="col">
+        <%= search_form_for @q, url: :question do |form| %>
+          <div class="form-group">
+            <%= form.label :search_answer %>
+            <%= form.text_field :text_i_cont_any  %>
+          </div>
+          <div class="form-group">
+            <%= form.submit 'Search', class: "btn btn-outline-primary" %>
+          </div>
+        <% end %>
+      </div>
     </div>
 <!--    <div class="dropdown">-->
 <!--      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuAnswers" data-bs-toggle="dropdown" aria-expanded="false">-->

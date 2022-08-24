@@ -12,6 +12,9 @@ gem "devise"
 # Adding bootstrap gem
 gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
+# Adding gem for search
+gem 'ransack'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 

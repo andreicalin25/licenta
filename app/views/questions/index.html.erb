@@ -21,17 +21,30 @@
 <!--          <li><%#= link_to 'nr of answers &#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
 <!--        </ul>-->
 <!--      </div>-->
-      <div class="btn-group ms-5" role="group" aria-label="Basic">
-        <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      </div>
+      <div class="row mt-3 ms-5">
+        <div class="btn-group col" role="group" aria-label="Basic">
+          <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+        </div>
 
+        <div class="col">
+          <%= search_form_for @q, url: :questions do |form| %>
+            <div class="form-group">
+              <%= form.label :search_question %>
+              <%= form.text_field :title_or_details_i_cont_any  %>
+            </div>
+            <div class="form-group">
+              <%= form.submit 'Search', class: "btn btn-outline-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
       <% @questions.each do |question| %>
         <%= render question %>
       <% end %>
@@ -42,7 +55,7 @@
       </div>
 
       <div class="row btn-group-vertical col-6">
-        <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
+        <%= link_to "All", questions_path(request.parameters.merge(subject: nil)), :class => "btn btn-info btn-block" %>
 
         <% @subjects.subject_names.each do |subject_name| %>
           <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapse<%= subject_name.delete(" \t\r\n") %>">
@@ -50,7 +63,7 @@
           </button>
           <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
             <% @subjects.where(subject_name: subject_name).each do |subject| %>
-              <%= link_to subject.activity || "activitate", questions_path(:subject => subject.id), :class => "btn btn-info w-100" %>
+              <%= link_to subject.activity || "activitate", questions_path(request.parameters.merge(subject: subject.id)), :class => "btn btn-info w-100" %>
             <% end %>
           </div>
         <% end %>
@@ -60,15 +73,30 @@
 <% elsif current_user.role == "TEACHER" %>
   <div class="row">
     <div class="col-8">
-      <div class="btn-group ms-5" role="group" aria-label="Basic">
-        <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <div class="row mt-3 ms-5">
+
+        <div class="btn-group col" role="group" aria-label="Basic">
+          <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+        </div>
+
+        <div class="col">
+          <%= search_form_for @q, url: :questions do |form| %>
+            <div class="form-group">
+              <%= form.label :search_question %>
+              <%= form.text_field :title_or_details_cont %>
+            </div>
+            <div class="form-group">
+              <%= form.submit 'Search', class: "btn btn-outline-primary" %>
+            </div>
+          <% end %>
+        </div>
       </div>
 
       <% @questions.each do |question| %>
@@ -77,7 +105,7 @@
     </div>
     <div class="col-4" id="student_subjects">
       <div class="btn-group-vertical">
-        <%= link_to "All", questions_path(:subject => nil), :class => "btn btn-info btn-block" %>
+        <%= link_to "All", questions_path(request.parameters.merge(subject: nil)), :class => "btn btn-info btn-block" %>
 
         <% @subjects.subject_names.each do |subject_name| %>
           <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
@@ -85,7 +113,7 @@
           </button>
           <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
             <% @subjects.where(subject_name: subject_name).each do |subject| %>
-              <%= link_to subject.activity || "activitate", questions_path(:subject => subject.id), :class => "btn btn-info w-100" %>
+              <%= link_to subject.activity || "activitate", questions_path(request.parameters.merge(subject: subject.id)), :class => "btn btn-info w-100" %>
             <% end %>
 
           </div>
@@ -95,15 +123,29 @@
   </div>
 <% else %>
   <div id="questions">
-    <div class="btn-group ms-5" role="group" aria-label="Basic">
-      <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
-      <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+    <div class="row mt-3 ms-5">
+      <div class="btn-group ms-5 col" role="group" aria-label="Basic">
+        <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+      </div>
+
+      <div class="col">
+        <%= search_form_for @q, url: :questions do |form| %>
+          <div class="form-group">
+            <%= form.label :search_question %>
+            <%= form.text_field :title_or_details_cont %>
+          </div>
+          <div class="form-group">
+            <%= form.submit 'Search', class: "btn btn-outline-primary" %>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <% @questions.each do |question| %>
