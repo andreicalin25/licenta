@@ -84,6 +84,25 @@
 
     <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary ", data: { turbo_frame: "modal" }%>
 
+    <div class="btn-group" role="group" aria-label="Basic">
+      <%= link_to 'time&#8743;'.html_safe, question_path(@question, sort: 'time-cresc'), :class => "btn btn-info w-100" %>
+      <%= link_to 'time&#8744;'.html_safe, question_path(@question, sort: 'time-desc'), :class => "btn btn-info w-100" %>
+      <%= link_to 'likes&#8743;'.html_safe, question_path(@question, sort: 'likes-cresc'), :class => "btn btn-info w-100" %>
+      <%= link_to 'likes&#8744;'.html_safe, question_path(@question, sort: 'likes-desc'), :class => "btn btn-info w-100" %>
+    </div>
+<!--    <div class="dropdown">-->
+<!--      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuAnswers" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--        Dropdown link-->
+<!--      </a>-->
+
+<!--      <ul class="dropdown-menu" aria-labelledby="dropdownMenuAnswers">-->
+<!--        <li><%#= link_to 'time &#8743;'.html_safe, question_path(@question, sort: 'time-cresc'), :class => "btn btn-info w-100" %></li>-->
+<!--        <li><%#= link_to 'time &#8744;'.html_safe, question_path(@question, sort: 'time-desc'), :class => "btn btn-info w-100" %></li>-->
+<!--        <li><%#= link_to 'likes &#8743;'.html_safe, question_path(@question, sort: 'likes-cresc'), :class => "btn btn-info w-100" %></li>-->
+<!--        <li><%#= link_to 'likes &#8744;'.html_safe, question_path(@question, sort: 'likes-desc'), :class => "btn btn-info w-100" %></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
     <div id="answers">
       <% @answers.each do |answer| %>
         <div id="<%= answer.id %>" class="card me-5 mt-4">

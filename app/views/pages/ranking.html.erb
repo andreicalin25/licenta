@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="btn-group" role="group" aria-label="Basic">
+    <%#= link_to 'first', ranking_path(ts: TeachersSubject.first.id), :class => "btn btn-info w-100" %>
+    <%#= link_to 'all', ranking_path(ts: nil), :class => "btn btn-info w-100" %>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <table class="table table-light">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Group</th>
+        <th scope="col">Questions answered</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @most_active_students.each_with_index do |element, index| %>
+        <tr>
+          <th scope="row"><%= index+1 %></th>
+          <td><%= element.first.last_name + " " + element.first.first_name %></td>
+          <td><%= element.first.group %></td>
+          <td><%= element.second %></td>
+        </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <table class="table table-light">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Group</th>
+        <th scope="col">Answers' likes received</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @most_appreciated_students.each_with_index do |element, index| %>
+        <tr>
+          <th scope="row"><%= index+1 %></th>
+          <td><%= element.first.last_name + " " + element.first.first_name %></td>
+          <td><%= element.first.group %></td>
+          <td><%= element.second %></td>
+        </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <div class="row btn-group-vertical col-6">
+      <%= link_to "All", ranking_path(ts: nil), :class => "btn btn-info btn-block" %>
+
+      <% @my_teachers_subjects.each do |ts| %>
+        <%= link_to  ts.subject.subject_name + " " + ts.subject.activity, ranking_path(ts: ts.id), :class => "btn btn-info btn-block" %>
+    <% end %>
+    </div>
+  </div>
+</div>

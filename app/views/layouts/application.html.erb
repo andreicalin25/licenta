@@ -35,6 +35,10 @@
         <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
           <ul class="nav nav-pills">
 
+            <li class="nav-item mx-3">
+              <%= link_to 'Ranking', ranking_path, :class => "text-decoration-none nav-link #{active_class(ranking_path)}"   %>
+            </li>
+
             <% if current_user.role == "STUDENT" %>
               <li class="nav-item mx-3">
                   <%= link_to "My enrollments", "/enrollments", :class => "text-decoration-none nav-link #{active_class(enrollments_path)}"   %>
@@ -79,8 +83,8 @@
       </div>
     </nav>
   <% else %>
-    <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-    <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+<!--    <%#= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |-->
+    <%#= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
   <% end %>
 
 

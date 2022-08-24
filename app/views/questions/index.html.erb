@@ -6,6 +6,32 @@
 <% if current_user.role == "STUDENT" %>
   <div class="row">
     <div class="col-8">
+<!--      <div class="dropdown">-->
+<!--        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" onclick="custom_toggle()">-->
+<!--          Dropdown link-->
+<!--        </a>-->
+<!--        <ul id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+<!--          <li><%#= link_to 'title &#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'title &#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'time &#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'time &#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'likes &#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'likes &#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'nr of answers &#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--          <li><%#= link_to 'nr of answers &#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
+<!--        </ul>-->
+<!--      </div>-->
+      <div class="btn-group ms-5" role="group" aria-label="Basic">
+        <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      </div>
+
       <% @questions.each do |question| %>
         <%= render question %>
       <% end %>
@@ -34,6 +60,17 @@
 <% elsif current_user.role == "TEACHER" %>
   <div class="row">
     <div class="col-8">
+      <div class="btn-group ms-5" role="group" aria-label="Basic">
+        <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      </div>
+
       <% @questions.each do |question| %>
         <%= render question %>
       <% end %>
@@ -58,9 +95,37 @@
   </div>
 <% else %>
   <div id="questions">
+    <div class="btn-group ms-5" role="group" aria-label="Basic">
+      <%= link_to 'title&#8743;'.html_safe, questions_path(sort: 'title-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'title&#8744;'.html_safe, questions_path(sort: 'title-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'time&#8743;'.html_safe, questions_path(sort: 'time-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'time&#8744;'.html_safe, questions_path(sort: 'time-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'likes&#8743;'.html_safe, questions_path(sort: 'likes-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'likes&#8744;'.html_safe, questions_path(sort: 'likes-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(sort: 'answers-cresc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+      <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-outline-info w-100" %>
+    </div>
+
     <% @questions.each do |question| %>
       <%= render question %>
     <% end %>
   </div>
 <% end %>
 
+
+
+<script>
+    var button = document.getElementById("dropdownMenuLink");
+
+    function custom_toggle() {
+        var dropdown = document.getElementById("dropdownMenu");
+
+        if (dropdown.classList.contains("dropdown-menu show")) {
+            console.log("remove")
+            dropdown.classList.remove("show")
+        } else {
+            console.log("add")
+            dropdown.classList.add("show")
+        }
+    }
+</script>

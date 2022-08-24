@@ -23,6 +23,26 @@ class QuestionsController < ApplicationController
     else
       @questions = Question.all
     end
+    
+    @questions = @questions.sort_by { |q| q.created_at }.reverse
+    
+    if params[:sort] == 'title-cresc'
+      @questions = @questions.sort_by { |q| q.title }
+    elsif params[:sort] == 'title-desc'
+      @questions = @questions.sort_by { |q| q.title }.reverse
+    elsif params[:sort] == 'time-cresc'
+      @questions = @questions.sort_by { |q| q.created_at }
+    elsif params[:sort] == 'time-desc'
+      @questions = @questions.sort_by { |q| q.created_at }.reverse
+    elsif params[:sort] == 'likes-cresc'
+      @questions = @questions.sort_by { |q| q.question_likes.count }
+    elsif params[:sort] == 'likes-desc'
+      @questions = @questions.sort_by { |q| q.question_likes.count }.reverse
+    elsif params[:sort] == 'answers-cresc'
+      @questions = @questions.sort_by { |q| q.answers.count }
+    elsif params[:sort] == 'answers-desc'
+      @questions = @questions.sort_by { |q| q.answers.count }.reverse
+    end
   end
 
   # GET /my_questions
@@ -34,6 +54,16 @@ class QuestionsController < ApplicationController
   def show
     @answers = Answer.of_question(@question.id)
     @answer = @question.answers.build
+
+    if params[:sort] == 'time-cresc'
+      @answers = @answers.sort_by { |a| a.created_at }
+    elsif params[:sort] == 'time-desc'
+      @answers = @answers.sort_by { |a| a.created_at }.reverse
+    elsif params[:sort] == 'likes-cresc'
+      @answers = @answers.sort_by { |a| a.answer_likes.count }
+    elsif params[:sort] == 'likes-desc'
+      @answers = @answers.sort_by { |a| a.answer_likes.count }.reverse
+    end
   end
 
   # GET /questions/new

@@ -19,5 +19,6 @@ class Question < ApplicationRecord
   scope :questions_for_student_by_subject, ->(student_id, subject_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.where(subject_id: subject_id).of_student(student_id) } )}
   scope :questions_for_teacher, ->(teacher_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.of_teacher(teacher_id) } )}
   scope :questions_for_teacher_by_subject, ->(teacher_id, subject_id) {joins(:enrollment).where(enrollments: {teachers_subject: TeachersSubject.where(subject_id: subject_id).of_teacher(teacher_id) } )}
+  scope :questions_of_teachers_subject, ->(teachers_subject_id) {joins(:enrollment).where(enrollments: {teachers_subject: teachers_subject_id } )}
 
 end

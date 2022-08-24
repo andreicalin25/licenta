@@ -33,6 +33,7 @@ class AnswersController < ApplicationController
   def create
     @answer = Answer.new(answer_params)
     @answer.user = current_user
+    @answer.answer_likes_count = 0
 
     respond_to do |format|
       if @answer.save
@@ -97,7 +98,7 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:text, :question_id, files: [])
+      params.require(:answer).permit(:text, :question_id, :anonymous, files: [])
     end
 
     def authorize_admin_creator

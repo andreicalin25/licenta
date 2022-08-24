@@ -7,6 +7,7 @@ class AnswerLikesController < ApplicationController
       flash[:notice] = "You can't like more than once"
     else
       @answer.answer_likes.create(user_id: current_user.id)
+      @answer.answer_likes_count += 1
     end
     redirect_to question_path(@answer.question)
   end
@@ -16,6 +17,7 @@ class AnswerLikesController < ApplicationController
       flash[:notice] = "Cannot unlike"
     else
       @answer_like.destroy
+      @answer.answer_likes_count -= 1
     end
     redirect_to question_path(@answer.question)
   end
