@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row me-0" style="margin-right: 0px;">
   <div class="col-8">
   <h1 class="text-center">Questions</h1>
   </div>
 </div>
 <% if current_user.role == "STUDENT" %>
-  <div class="row">
+  <div class="row me-0" style="margin-right: 0px;">
     <div class="col-8">
 <!--      <div class="dropdown">-->
 <!--        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" onclick="custom_toggle()">-->
@@ -21,7 +21,7 @@
 <!--          <li><%#= link_to 'nr of answers &#8744;'.html_safe, questions_path(sort: 'answers-desc', subject: params[:subject]), :class => "btn btn-info w-100" %></li>-->
 <!--        </ul>-->
 <!--      </div>-->
-      <div class="row mt-3 ms-5">
+      <div class="row mt-3 ms-5" style="margin-right: 0px;">
         <div class="btn-group col" role="group" aria-label="Basic">
           <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
           <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
@@ -71,7 +71,7 @@
     </div>
   </div>
 <% elsif current_user.role == "TEACHER" %>
-  <div class="row">
+  <div class="row me-0">
     <div class="col-8">
       <div class="row mt-3 ms-5">
 
@@ -123,17 +123,33 @@
   </div>
 <% else %>
   <div id="questions">
-    <div class="row mt-3 ms-5">
-      <div class="btn-group ms-5 col" role="group" aria-label="Basic">
-        <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
-        <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+    <div class="row mt-3 ms-5 me-0">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %></li>
+          <li><%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %></li>
+        </ul>
       </div>
+
+<!--      <div class="btn-group ms-5 col" role="group" aria-label="Basic">-->
+        <%#= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
+        <%#= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+<!--      </div>-->
 
       <div class="col">
         <%= search_form_for @q, url: :questions do |form| %>

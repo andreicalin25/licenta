@@ -12,6 +12,8 @@ gem "devise"
 # Adding bootstrap gem
 gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
+gem 'popper_js', '~> 2.11.5'
+
 # Adding gem for search
 gem 'ransack'
 

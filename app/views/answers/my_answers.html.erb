@@ -5,7 +5,7 @@
 <div id="answers">
   <% @my_answers.in_groups_of(2).each do |answer_pair| %>
     <%# print answer_pair %>
-    <div class="row">
+    <div class="row" style="margin-right: 0px;">
       <div class="col ms-5">
         <%= render answer_pair.first %>
       </div>

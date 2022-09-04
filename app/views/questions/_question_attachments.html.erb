@@ -49,7 +49,7 @@
           <% else %>
             <%= @question.anonymous ? "anonymous," : @question.enrollment.student.last_name + " " + @question.enrollment.student.first_name + ","%>
           <% end %>
-          <%= @question.created_at %>
+          <%= @question.created_at.to_fs(:short) %>
         </p>
       </div>
     </div>
@@ -61,7 +61,7 @@
       <% else %>
         <%= @question.anonymous ? "anonymous," : @question.enrollment.student.last_name + " " + @question.enrollment.student.first_name + ","%>
       <% end %>
-      <%= @question.created_at %>
+      <%= @question.created_at.to_fs(:short) %>
     </p>
   <%end %>
 

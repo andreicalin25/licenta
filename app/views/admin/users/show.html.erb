@@ -1,6 +1,6 @@
 <div>
   <% if (current_user.id == @user.id) %>
-    <div class="row justify-content-md-center mb-5">
+    <div class="row justify-content-md-center mb-5 me-0" >
       <div class="card col-4 mt-5">
         <div class="card-body" id="<%= dom_id @user %>">
           <%= render @user %>
@@ -12,7 +12,7 @@
       </div>
     </div>
   <% else %>
-    <div class="row">
+    <div class="row" style="margin-right: 0px;">
       <div class="col">
         <div class="row justify-content-md-center mb-5">
           <div class="card col-8 mt-5">
