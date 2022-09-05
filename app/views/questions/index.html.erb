@@ -22,16 +22,31 @@
 <!--        </ul>-->
 <!--      </div>-->
       <div class="row mt-3 ms-5" style="margin-right: 0px;">
-        <div class="btn-group col" role="group" aria-label="Basic">
-          <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
-          <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+        <div>
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %></li>
+            <li><%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %></li>
+          </ul>
         </div>
+<!--        <div class="btn-group col" role="group" aria-label="Basic">-->
+          <%#= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-info w-100" %>
+          <%#= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-info w-100" %>
+<!--        </div>-->
 
         <div class="col">
           <%= search_form_for @q, url: :questions do |form| %>
@@ -173,6 +188,7 @@
 
 
 <script>
+
     var button = document.getElementById("dropdownMenuLink");
 
     function custom_toggle() {
