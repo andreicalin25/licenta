@@ -67,7 +67,7 @@ class Admin::UsersController < ApplicationController
     print(@user)
     respond_to do |format|
       if @user.update(activated: true)
-        format.html { redirect_to admin_users_url, notice: "User was successfully updated." }
+        format.html { redirect_to admin_users_url, notice: "User was successfully activated." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }

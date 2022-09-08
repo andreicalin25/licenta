@@ -20,7 +20,7 @@
           <% else %>
             <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
           <% end %>
-          <%= answer.created_at %>
+          <%= answer.created_at.to_fs(:short) %>
         </p>
       <% end %>
     </div>

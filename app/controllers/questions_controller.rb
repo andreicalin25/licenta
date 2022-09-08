@@ -42,6 +42,10 @@ class QuestionsController < ApplicationController
       @questions = @questions.sort_by { |q| q.created_at }
     elsif params[:sort] == 'time-desc'
       @questions = @questions.sort_by { |q| q.created_at }.reverse
+    elsif params[:sort] == 'importance-cresc'
+      @questions = @questions.sort_by { |q| q.importance }
+    elsif params[:sort] == 'importance-desc'
+      @questions = @questions.sort_by { |q| q.importance }.reverse
     elsif params[:sort] == 'likes-cresc'
       @questions = @questions.sort_by { |q| q.question_likes.count }
     elsif params[:sort] == 'likes-desc'

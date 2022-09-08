@@ -6,12 +6,16 @@
       <div class="carousel-inner">
 
         <div class="carousel-item active">
-          <%= image_tag(images.first, class:"d-block w-100", alt: "...") %>
+          <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+            <%= image_tag(images.first, style:"max-height: 400px;", class:"d-block w-100") %>
+          <% end %>
         </div>
 
         <% images[1..].each do |image| %>
             <div class="carousel-item ">
-              <%= image_tag(image, class:"d-block w-100", alt: "...") %>
+              <%= link_to url_for(image), target: :_blank, class:"" do%>
+                <%= image_tag(image, style:"max-height: 400px;", class:"d-block w-100") %>
+              <% end %>
             </div>
         <% end %>
       </div>
@@ -26,7 +30,9 @@
     </div>
   <% elsif images.size == 1 %>
     <div class="">
-      <%= image_tag(images.first, class:"d-block w-100") %>
+      <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+        <%= image_tag(images.first, style:"max-height: 400px;", class:"d-block w-100") %>
+      <% end %>
     </div>
   <% end %>
 

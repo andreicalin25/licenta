@@ -6,7 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <%= stylesheet_link_tag "application", media: 'all', "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= yield :head %>
@@ -22,8 +22,6 @@
 
   <body style="background-color: #CAE9F5;">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
   <% if user_signed_in? %>
     <!-- navbar -->
     <nav class="navbar navbar-expand-md navbar-light sticky-top shadow p-3 mb-3 bg-body rounded" style="background-color: white;">
@@ -31,7 +29,7 @@
         <!-- navbar brand / title -->
         <div class="nav-item mx-3 mb-2">
           <a class="nav-link">
-            <%= link_to "Home", root_path, :class => 'text-decoration-none'  %>
+            <%= link_to "TutorEd", root_path, :class => 'text-decoration-none h3 '  %>
           </a>
         </div>
 
@@ -41,51 +39,62 @@
         </button>
 
         <!-- navbar links -->
-        <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+        <div class="collapse navbar-collapse justify-content-end align-center mt-2" id="main-nav">
           <ul class="nav nav-pills">
 
-            <li class="nav-item mx-3">
-              <%= link_to 'Ranking', ranking_path, :class => "text-decoration-none nav-link #{active_class(ranking_path)}"   %>
-            </li>
-
-            <% if current_user.role == "STUDENT" %>
+            <% if current_user.activated == false %>
               <li class="nav-item mx-3">
-                  <%= link_to "My enrollments", "/enrollments", :class => "text-decoration-none nav-link #{active_class(enrollments_path)}"   %>
-              </li>
-              <li class="nav-item mx-3">
-                  <%= link_to "My questions", "/my_questions", :class => "text-decoration-none nav-link #{active_class(my_questions_path)}" %>
-              </li>
-              <li class="nav-item mx-3">
-                  <%= link_to "My answers", "/my_answers", :class => "text-decoration-none nav-link #{active_class(my_answers_path)}"   %>
+                <%= link_to 'Show profile', admin_user_path(current_user.id), :class => "text-decoration-none nav-link #{active_class(admin_user_path(current_user.id))}"   %>
               </li>
 
-            <% elsif current_user.role == "TEACHER" %>
               <li class="nav-item mx-3">
-                  <%= link_to "My subjects", "/subjects", :class => "text-decoration-none nav-link #{active_class(subjects_path)}"   %>
+                <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, :class => "text-decoration-none nav-link"  %>
               </li>
-              <li class="nav-item">
-                  <%= link_to "My answers", "/my_answers", :class => "text-decoration-none nav-link #{active_class(my_answers_path)}"   %>
+            <% else %>
+
+              <li class="nav-item mx-3">
+                <%= link_to 'Ranking', ranking_path, :class => "text-decoration-none nav-link #{active_class(ranking_path)}"   %>
               </li>
 
-            <% elsif current_user.role == "ADMIN" %>
+              <% if current_user.role == "STUDENT" %>
+                <li class="nav-item mx-3">
+                    <%= link_to "My enrollments", "/enrollments", :class => "text-decoration-none nav-link #{active_class(enrollments_path)}"   %>
+                </li>
+                <li class="nav-item mx-3">
+                    <%= link_to "My questions", "/my_questions", :class => "text-decoration-none nav-link #{active_class(my_questions_path)}" %>
+                </li>
+                <li class="nav-item mx-3">
+                    <%= link_to "My answers", "/my_answers", :class => "text-decoration-none nav-link #{active_class(my_answers_path)}"   %>
+                </li>
+
+              <% elsif current_user.role == "TEACHER" %>
+                <li class="nav-item mx-3">
+                    <%= link_to "My subjects", "/subjects", :class => "text-decoration-none nav-link #{active_class(subjects_path)}"   %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to "My answers", "/my_answers", :class => "text-decoration-none nav-link #{active_class(my_answers_path)}"   %>
+                </li>
+
+              <% elsif current_user.role == "ADMIN" %>
+                <li class="nav-item mx-3">
+                    <%= link_to "Enrollments", enrollments_path, :class => "text-decoration-none nav-link #{active_class(enrollments_path)}"   %>
+                </li>
+                <li class="nav-item mx-3">
+                    <%= link_to "Users", admin_users_path, :class => "text-decoration-none nav-link #{active_class(admin_users_path)}"   %>
+                </li>
+                <li class="nav-item mx-3">
+                    <%= link_to "Subjects", subjects_path, :class => "text-decoration-none nav-link #{active_class(subjects_path)}"   %>
+                </li>
+              <% end %>
+
               <li class="nav-item mx-3">
-                  <%= link_to "Enrollments", enrollments_path, :class => "text-decoration-none nav-link #{active_class(enrollments_path)}"   %>
+                  <%= link_to 'Show profile', admin_user_path(current_user.id), :class => "text-decoration-none nav-link #{active_class(admin_user_path(current_user.id))}"   %>
               </li>
+
               <li class="nav-item mx-3">
-                  <%= link_to "Users", admin_users_path, :class => "text-decoration-none nav-link #{active_class(admin_users_path)}"   %>
-              </li>
-              <li class="nav-item mx-3">
-                  <%= link_to "Subjects", subjects_path, :class => "text-decoration-none nav-link #{active_class(subjects_path)}"   %>
+                  <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, :class => "text-decoration-none nav-link"  %>
               </li>
             <% end %>
-
-            <li class="nav-item mx-3">
-                <%= link_to 'Show profile', admin_user_path(current_user.id), :class => "text-decoration-none nav-link #{active_class(admin_user_path(current_user.id))}"   %>
-            </li>
-
-            <li class="nav-item mx-3">
-                <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, :class => "text-decoration-none nav-link"  %>
-            </li>
 
           </ul>
         </div>
@@ -110,11 +119,16 @@
 
     <%= turbo_frame_tag "modal", target: "_top" %>
 
+    <div class="mt-3 p-3">
+
+    </div>
+
     <script>
+
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
-  </body>
+</body>
 </html>

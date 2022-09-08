@@ -12,12 +12,18 @@ class SubjectsController < ApplicationController
       @subjects_not_of_teacher = Subject.subjects_not_of_teacher(current_user.id)
     else
       @subjects = Subject.all
+
+      if params[:sort] == 'subject_name'
+        @subjects = @subjects.sort_by { |s| s.subject_name }
+      elsif params[:sort] == 'subject_name-desc'
+        @subjects = @subjects.sort_by { |s| s.subject_name }.reverse
+      end
     end
   end
 
   # GET /subjects/1 or /subjects/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /subjects/new
   def new
@@ -25,8 +31,8 @@ class SubjectsController < ApplicationController
   end
 
   # GET /subjects/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /subjects or /subjects.json
   def create
@@ -34,7 +40,7 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully created." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -47,7 +53,7 @@ class SubjectsController < ApplicationController
   def update
     respond_to do |format|
       if @subject.update(subject_params)
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully updated." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully updated." }
         format.json { render :show, status: :ok, location: @subject }
       else
         format.html { render :edit, status: :unprocessable_entity }

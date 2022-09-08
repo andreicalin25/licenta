@@ -2,6 +2,7 @@ class EnrollmentsController < ApplicationController
   before_action :set_enrollment, only: %i[ show destroy ]
   before_action :authenticate_user!
   before_action :authorize_admin_or_student
+  before_action :authorize_admin_active
 
   # GET /enrollments or /enrollments.json
   def index
@@ -10,6 +11,28 @@ class EnrollmentsController < ApplicationController
       @teachers_subjects_not_of_student = TeachersSubject.teachers_subjects_not_of_student(current_user.id)
     else
       @enrollments = Enrollment.all
+
+      if params[:sort] == 'subject_name'
+        @enrollments = @enrollments.sort_by { |e| e.subject.subject_name }
+      elsif params[:sort] == 'subject_name-desc'
+        @enrollments = @enrollments.sort_by { |e| e.subject.subject_name }.reverse
+      elsif params[:sort] == 'activity'
+        @enrollments = @enrollments.sort_by { |e| e.subject.activity }
+      elsif params[:sort] == 'activity-desc'
+        @enrollments = @enrollments.sort_by { |e| e.subject.activity }.reverse
+      elsif params[:sort] == 'teacher'
+        @enrollments = @enrollments.sort_by { |e| e.teacher.last_name + e.teacher.first_name}
+      elsif params[:sort] == 'teacher-desc'
+        @enrollments = @enrollments.sort_by { |e| e.teacher.last_name + e.teacher.first_name}.reverse
+      elsif params[:sort] == 'student'
+        @enrollments = @enrollments.sort_by { |e| e.student.last_name + e.student.first_name }
+      elsif params[:sort] == 'student-desc'
+        @enrollments = @enrollments.sort_by { |e| e.student.last_name + e.student.first_name }.reverse
+      elsif params[:sort] == 'group'
+        @enrollments = @enrollments.sort_by { |e| e.student.group }
+      elsif params[:sort] == 'group-desc'
+        @enrollments = @enrollments.sort_by { |e| e.student.group }.reverse
+      end
     end
   end
 
@@ -37,7 +60,7 @@ class EnrollmentsController < ApplicationController
     @enrollment.destroy
 
     respond_to do |format|
-      format.html { redirect_to enrollments_url, notice: "Enrollment was successfully destroyed." }
+      format.html { redirect_to enrollments_url, notice: "Enrollment was successfully removed." }
       format.json { head :no_content }
     end
   end

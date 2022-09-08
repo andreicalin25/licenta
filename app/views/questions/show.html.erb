@@ -82,27 +82,42 @@
       <%#= render "answers/form", answer: @answer%>
 <!--    </div>-->
 
-    <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary mb-3", data: { turbo_frame: "modal" }%>
 
-    <div class="row mt-3 me-3">
-      <div class="btn-group col" role="group" aria-label="Basic">
-        <%= link_to 'time&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-info w-100" %>
-        <%= link_to 'time&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-desc')), :class => "btn btn-info w-100" %>
-        <%= link_to 'likes&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-info w-100" %>
-        <%= link_to 'likes&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-info w-100" %>
+    <div class=" mt-3 me-3 d-flex">
+      <div class="">
+        <%= link_to "New answer", new_answer_path(question_id: @question.id), class: "btn btn-outline-primary mb-3", data: { turbo_frame: "modal" }%>
       </div>
-
-      <div class="col">
+      <div class="ms-auto me-4 pe-2">
         <%= search_form_for @q, url: :question do |form| %>
-          <div class="form-group">
-            <%= form.label :search_answer %>
-            <%= form.text_field :text_i_cont_any  %>
-          </div>
-          <div class="form-group">
-            <%= form.submit 'Search', class: "btn btn-outline-primary" %>
-          </div>
+          <%= form.label :search_answer, class: "form-label" %>
+          <%= form.text_field :text_i_cont_any, class: "form-comtrol"  %>
+          <%= form.submit 'Search', class: "btn btn-outline-primary " %>
         <% end %>
+
       </div>
+    </div>
+
+    <div class="d-flex">
+      <div>
+        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
+          Sort questions &#9656;
+        </button>
+      </div>
+
+      <div class="collapse ms-auto me-5 " id="collapseSort">
+        <div class="">
+          <div class="btn-group col" role="group" aria-label="Basic">
+            <%= link_to 'time&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'time&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'likes&#8743;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'likes&#8744;'.html_safe, question_path(@question, request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+
     </div>
 <!--    <div class="dropdown">-->
 <!--      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuAnswers" data-bs-toggle="dropdown" aria-expanded="false">-->
@@ -140,7 +155,7 @@
                 <% else %>
                   <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
                 <% end %>
-                <%= answer.created_at %>
+                <%= answer.created_at.to_fs(:short) %>
               </p>
             <% end %>
           </div>

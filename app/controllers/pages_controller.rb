@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :authorize_admin_active, only: %i[ranking]
 
   def home
     if current_user and current_user.activated == true

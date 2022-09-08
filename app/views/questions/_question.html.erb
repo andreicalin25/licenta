@@ -1,4 +1,4 @@
-<div id="<%= dom_id question %>" class="container my-5">
+<div id="<%= dom_id question %>" class="container mb-5 mt-3">
   <div class="card mx-5">
 
   <% if question.importance == 3 %>
@@ -36,7 +36,7 @@
           <% else %>
             <%= question.anonymous ? "anonymous," : question.enrollment.student.last_name + " " + question.enrollment.student.first_name + ","%>
           <% end %>
-          <%= question.created_at %>
+          <%= question.created_at.to_fs(:short) %>
         </p>
       </div>
     </a>

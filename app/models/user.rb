@@ -4,9 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :teachers_subjects, dependent: :destroy
+  has_many :teachers_subjects, dependent: :destroy, foreign_key: :teacher_id
   has_many :subjects, through: :teachers_subjects
-  has_many :enrollments, dependent: :destroy
+  has_many :enrollments, dependent: :destroy, foreign_key: :student_id
   has_many :question_likes, dependent: :destroy
   has_many :answer_likes, dependent: :destroy
 

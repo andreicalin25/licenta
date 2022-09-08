@@ -6,7 +6,7 @@
           <%= render @user %>
           <div class="d-flex mt-4 justify-content-between">
             <%= link_to "Edit profile", edit_user_registration_path(@user), class: "btn btn-outline-primary me-5" %>
-            <%= button_to "Cancel my account", registration_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger" %>
+            <%= button_to "Cancel my account", registration_path(@user), :onclick => "return confirm('Are you sure?')", method: :delete, class: "btn btn-outline-danger" %>
           </div>
         </div>
       </div>
