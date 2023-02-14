@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<h2 class="text-center">My answers</h2>
+
+<div id="answers">
+  <% @my_answers.in_groups_of(2).each do |answer_pair| %>
+    <%# print answer_pair %>
+    <div class="row" style="margin-right: 0px;">
+      <div class="col ms-5">
+        <%= render answer_pair.first %>
+      </div>
+      <div class="col">
+        <% if answer_pair.second != nil %>
+          <%= render answer_pair.second %>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+

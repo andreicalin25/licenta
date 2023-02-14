@@ -1,14 +1,238 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Questions</h1>
-
-<div id="questions">
-  <% @questions.each do |question| %>
-    <%= render question %>
-    <p>
-      <%= link_to "Show this question", question %>
-    </p>
-  <% end %>
+<div class="row me-0" style="margin-right: 0px;">
+  <div class="col-8 ms-5">
+  <h1 class="text-center">Questions</h1>
+  </div>
 </div>
+<% if current_user.role == "STUDENT" %>
+  <div class="row me-0">
+    <div class="col-sm-9 d-sm-flex my-3 align-items-sm-center">
+      <div class="ms-5 ps-4">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
+          Sort questions
+        </button>
+      </div>
+      <div class="ms-auto me-5 pe-4">
+        <div class="">
+          <%= search_form_for @q, url: :questions do |form| %>
+              <%= form.label :search_question, class: "form-label" %>
+              <%= form.text_field :title_or_details_i_cont_any, class: "form-comtrol"  %>
+              <%= form.submit 'Search', class: "btn btn-outline-primary " %>
+          <% end %>
+        </div>
+      </div>
 
-<%= link_to "New question", new_question_path %>
+    </div>
+    <div class="col-sm-3">
+      <div class="row my-3 col-8 ms-3">
+        <%= link_to "New question", new_question_path, class: "btn btn-outline-primary", data: { turbo_frame: "modal" }%>
+      </div>
+    </div>
+  </div>
+  <div class="row me-0" style="margin-right: 0px;">
+    <div class="col-sm-9 order-md-first order-last">
+
+      <div class="collapse mx-5 my-3" id="collapseSort">
+        <div class="mx-4">
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'importance&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'importance&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+        </div>
+      </div>
+
+      <% @questions.each do |question| %>
+        <%= render question %>
+      <% end %>
+    </div>
+
+    <div class="col-sm-3" id="student_subjects">
+
+
+      <div class="row btn-group-vertical col-8 ms-3 my-3">
+        <%= link_to "All", questions_path(request.parameters.merge(subject: nil)), :class => "btn btn-info btn-block" %>
+
+        <% @subjects.subject_names.each do |subject_name| %>
+          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapse<%= subject_name.delete(" \t\r\n") %>">
+            <%= subject_name %>
+          </button>
+          <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
+            <% @subjects.where(subject_name: subject_name).each do |subject| %>
+              <%= link_to subject.activity.size > 1 ? subject.activity : "activitate", questions_path(request.parameters.merge(subject: subject.id)), :class => "btn btn-info w-100" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% elsif current_user.role == "TEACHER" %>
+  <div class="row me-0">
+    <div class="col-sm-9 d-flex my-3">
+      <div class="ms-5 ps-3">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
+          Sort questions
+        </button>
+      </div>
+      <div class="ms-auto me-5 pe-3">
+        <div class="">
+          <%= search_form_for @q, url: :questions do |form| %>
+            <%= form.label :search_question, class: "form-label" %>
+            <%= form.text_field :title_or_details_i_cont_any, class: "form-comtrol"  %>
+            <%= form.submit 'Search', class: "btn btn-outline-primary " %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-3">
+      <div class="row my-3 col-8 ms-3">
+        <%= link_to "New question", new_question_path, class: "btn btn-outline-primary", data: { turbo_frame: "modal" }%>
+      </div>
+    </div>
+  </div>
+  <div class="row me-0" style="margin-right: 0px;">
+    <div class="col-sm-9">
+
+      <div class="collapse mx-5 my-3" id="collapseSort">
+        <div class="mx-4">
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'importance&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'importance&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+          <div class="btn-group col mb-3" role="group" aria-label="Basic">
+            <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-primary w-100" %>
+            <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-primary w-100" %>
+          </div>
+        </div>
+      </div>
+
+      <% @questions.each do |question| %>
+        <%= render question %>
+      <% end %>
+    </div>
+
+    <div class="col-sm-3" id="student_subjects">
+
+
+      <div class="row btn-group-vertical col-8 ms-3 my-3">
+        <%= link_to "All", questions_path(request.parameters.merge(subject: nil)), :class => "btn btn-info btn-block" %>
+
+        <% @subjects.subject_names.each do |subject_name| %>
+          <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
+            <%= subject_name %>
+          </button>
+          <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
+            <% @subjects.where(subject_name: subject_name).each do |subject| %>
+              <%= link_to subject.activity.size > 1 ? subject.activity : "activitate", questions_path(request.parameters.merge(subject: subject.id)), :class => "btn btn-info w-100" %>
+            <% end %>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<% else %>
+  <div id="questions">
+    <div class="row me-0">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class=" d-flex my-3">
+          <div class=" ">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
+              Sort questions
+            </button>
+          </div>
+          <div class="ms-auto">
+            <div class="">
+              <%= search_form_for @q, url: :questions do |form| %>
+                <%= form.label :search_question, class: "form-label" %>
+                <%= form.text_field :title_or_details_i_cont_any, class: "form-comtrol"  %>
+                <%= form.submit 'Search', class: "btn btn-outline-primary " %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row me-0">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class="collapse my-3" id="collapseSort">
+          <div class="">
+            <div class="btn-group col mb-3" role="group" aria-label="Basic">
+              <%= link_to 'title&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'title-cresc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'title&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'title-desc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'time&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'time-cresc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'time&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'time-desc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'importance&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-cresc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'importance&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'importance-desc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'likes&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-cresc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'likes&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'likes-desc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'nr_of_answers&#8743;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-cresc')), :class => "btn btn-outline-primary w-100" %>
+              <%= link_to 'nr_of_answers&#8744;'.html_safe, questions_path(request.parameters.merge(sort: 'answers-desc')), :class => "btn btn-outline-primary w-100" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+
+    <% @questions.each do |question| %>
+      <%= render question %>
+    <% end %>
+  </div>
+<% end %>
+
+
+
+<!--<script>-->
+
+<!--    var button = document.getElementById("dropdownMenuLink");-->
+
+<!--    function custom_toggle() {-->
+<!--        var dropdown = document.getElementById("dropdownMenu");-->
+
+<!--        if (dropdown.classList.contains("dropdown-menu show")) {-->
+<!--            console.log("remove")-->
+<!--            dropdown.classList.remove("show")-->
+<!--        } else {-->
+<!--            console.log("add")-->
+<!--            dropdown.classList.add("show")-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->

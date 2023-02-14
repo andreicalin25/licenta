@@ -1,0 +1,73 @@
+<div class="row me-0 mt-5 ms-5">
+  <div class="col-4 ms-5">
+    <div class="mb-4">
+      <h3 class="text-center">Number of questions answered</h3>
+    </div>
+    <table class="table table-light">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Group</th>
+        <th scope="col">Questions answered</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @most_active_students.each_with_index do |element, index| %>
+        <tr>
+          <th scope="row"><%= index+1 %></th>
+          <td><%= element.first.last_name + " " + element.first.first_name %></td>
+          <td><%= element.first.group %></td>
+          <td><%= element.second %></td>
+        </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col-4">
+    <div class="mb-4">
+      <h3 class="text-center">Number of likes received</h3>
+    </div>
+    <table class="table table-light">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Group</th>
+        <th scope="col">Likes received</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @most_appreciated_students.each_with_index do |element, index| %>
+        <tr>
+          <th scope="row"><%= index+1 %></th>
+          <td><%= element.first.last_name + " " + element.first.first_name %></td>
+          <td><%= element.first.group %></td>
+          <td><%= element.second %></td>
+        </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+
+    <div class="row btn-group-vertical col-8 ms-3 my-3">
+      <%= link_to "All", ranking_path(ts: nil), :class => "btn btn-info btn-block" %>
+
+      <% @my_teachers_subjects.map { |ts| ts.subject.subject_name }.uniq.each do |subject_name| %>
+        <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= subject_name.delete(" \t\r\n") %>" aria-expanded="false" aria-controls="collapsecollapse<%subject_name%>">
+          <%= subject_name %>
+        </button>
+        <div class="collapse w-100" id="collapse<%= subject_name.delete(" \t\r\n") %>">
+          <% @my_teachers_subjects.joins(:subject).where(subjects: {subject_name: subject_name}).each do |ts| %>
+            <%= link_to  ts.subject.activity.size > 1 ? ts.subject.activity : "activitate", ranking_path(ts: ts.id), :class => "btn btn-info w-100" %>
+          <% end %>
+
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

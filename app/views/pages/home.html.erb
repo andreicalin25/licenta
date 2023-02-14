@@ -1,14 +1,21 @@
-<h1>Pages#home</h1>
+<% if current_user.activated == false %>
+  <div class="mt-5 text-center">
+      <h3> Sorry, your account hasn't been activated yet.</h3>
+      <h5> For details, contact admin@mail.com </h5>
+  </div>
+<% else %>
+    <h1>Pages#home</h1>
 
-<h1>Questions</h1>
+    <h1>Questions</h1>
 
-<div id="questions">
-  <% @questions.each do |question| %>
-    <%= render question %>
-    <p>
-      <%= link_to "Show this question", question %>
-    </p>
-  <% end %>
-</div>
+    <div id="questions">
+      <% @questions.each do |question| %>
+        <%= render question %>
+        <p>
+          <%= link_to "Show this question", question %>
+        </p>
+      <% end %>
+    </div>
 
-<%= link_to "New question", new_question_path %>
+    <%= link_to "New question", new_question_path %>
+<% end %>

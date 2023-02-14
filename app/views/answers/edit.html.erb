@@ -1,10 +1,5 @@
-<h1>Editing answer</h1>
+<%= render "modal", title: "Edit answer" do %>
 
-<%= render "form", answer: @answer %>
+<%= render "form", answer: @answer, question: @answer.question %>
 
-<br>
-
-<div>
-  <%= link_to "Show this answer", @answer %> |
-  <%= link_to "Back to answers", answers_path %>
-</div>
+<% end %>

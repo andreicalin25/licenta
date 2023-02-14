@@ -1,0 +1,74 @@
+<% if question.files.attached? %>
+
+  <% images = question.files.select{|file| file.image?} %>
+  <% if images.size > 1 %>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div class="carousel-item active">
+          <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+            <%= image_tag(images.first, class:"d-block w-100", style:"max-height: 500px;") %>
+          <% end %>
+        </div>
+
+        <% images[1..].each do |image| %>
+            <div class="carousel-item ">
+              <%= link_to url_for(image), target: :_blank, class:"" do%>
+                <%= image_tag(image, class:"d-block w-100", style:"max-height: 500px;") %>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  <% elsif images.size == 1 %>
+    <div class="">
+      <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+        <%= image_tag(images.first, style:"max-height: 500px;", class:"d-block w-100") %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% files = question.files.select{|file| !file.image?} %>
+  <% if files.size > 0 %>
+    <div class="row">
+      <div class="card mt-3 mx-3 col" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+          <% files.each do |file| %>
+            <li class="list-group-item">
+              <%= link_to file.filename, url_for(file), class:"message-file" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col">
+        <p class="align-bottom text-end mt-3">
+          <% if @question.enrollment.student_id == current_user.id %>
+            You,
+          <% else %>
+            <%= @question.anonymous ? "anonymous," : @question.enrollment.student.last_name + " " + @question.enrollment.student.first_name + ","%>
+          <% end %>
+          <%= @question.created_at.to_fs(:short) %>
+        </p>
+      </div>
+    </div>
+
+  <% else %>
+    <p class="card-text" style="text-align: right">
+      <% if @question.enrollment.student_id == current_user.id %>
+        You,
+      <% else %>
+        <%= @question.anonymous ? "anonymous," : @question.enrollment.student.last_name + " " + @question.enrollment.student.first_name + ","%>
+      <% end %>
+      <%= @question.created_at.to_fs(:short) %>
+    </p>
+  <%end %>
+
+<% end %>

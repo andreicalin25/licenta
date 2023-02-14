@@ -15,7 +15,6 @@ class AnswersTest < ApplicationSystemTestCase
     click_on "New answer"
 
     fill_in "Text", with: @answer.text
-    fill_in "Votes", with: @answer.votes
     click_on "Create Answer"
 
     assert_text "Answer was successfully created"
@@ -27,7 +26,6 @@ class AnswersTest < ApplicationSystemTestCase
     click_on "Edit this answer", match: :first
 
     fill_in "Text", with: @answer.text
-    fill_in "Votes", with: @answer.votes
     click_on "Update Answer"
 
     assert_text "Answer was successfully updated"

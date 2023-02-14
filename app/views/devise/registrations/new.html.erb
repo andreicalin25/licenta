@@ -1,0 +1,66 @@
+
+<div class="row justify-content-md-center mb-5 me-0">
+  <div class="card col-4 mt-5">
+    <div class="card-body">
+      <div class="image row justify-content-md-center mx-5 mb-5">
+        <%= image_tag "fmi-logo.png" %>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="field my-2">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :last_name %><br />
+          <%= f.text_field :last_name, autocomplete: "last-name", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :first_name %><br />
+          <%= f.text_field :first_name, autocomplete: "first-name", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :phone %><br />
+          <%= f.text_field :phone, autocomplete: "phone", class: "form-control" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :role %><br />
+          <%= f.select :role, [['Student', 'STUDENT'], ['Teacher', 'TEACHER']], class: "form-select" %>
+        </div>
+
+        <div class="field my-2">
+          <%= f.label :group %><br />
+          <%= f.text_field :group, autocomplete: "group", class: "form-control" %>
+        </div>
+
+        <div class="actions d-grid gap-2 col mx-auto">
+          <%= f.submit "Sign up", class: "btn btn-outline-primary my-3" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    var elements = document.getElementsByTagName("select")
+    elements[0].classList.add("form-select")
+</script>

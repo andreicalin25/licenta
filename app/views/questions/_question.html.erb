@@ -1,22 +1,52 @@
-<div id="<%= dom_id question %>">
-  <p>
-    <strong>Title:</strong>
-    <%= question.title %>
-  </p>
+<div id="<%= dom_id question %>" class="container mb-5 mt-3">
+  <div class="card mx-5">
 
-  <p>
-    <strong>Details:</strong>
-    <%= question.details %>
-  </p>
-
-  <p>
-    <strong>Importance:</strong>
-    <%= question.importance %>
-  </p>
-
-  <p>
-    <strong>Votes:</strong>
-    <%= question.votes %>
-  </p>
-
+  <% if question.importance == 3 %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="High-priority" style="text-decoration: none; color: white;">!!!</a>
+    </span>
+  <% elsif question.importance == 2 %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Medium-priority" style="text-decoration: none; color: white">!!</a>
+    </span>
+  <% else %>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+      <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Low-priority" style="text-decoration: none; color: white">!</a>
+    </span>
+  <% end %>
+    <div class="card-header d-flex">
+      <div class="me-auto">
+        <%= question.enrollment.subject.subject_name + " - " + question.enrollment.subject.activity%>
+      </div>
+      <div class="ms-auto text-muted">
+        <%= question.enrollment.teachers_subject.teacher.last_name + " " + question.enrollment.teachers_subject.teacher.first_name %>
+      </div>
+    </div>
+    <a href="<%= question_path(question) %>" class="text-decoration-none text-dark">
+      <div class="card-body">
+        <h5 class="card-title text-center">
+          <%= question.title %>
+        </h5>
+        <p class="card-text">
+          <%= question.details.length < 200 ? question.details : question.details[0,200] + "..."%>
+        </p>
+        <p class="card-text" style="text-align: right">
+          <% if question.enrollment.student_id == (current_user ? current_user.id : nil) %>
+            You,
+          <% else %>
+            <%= question.anonymous ? "anonymous," : question.enrollment.student.last_name + " " + question.enrollment.student.first_name + ","%>
+          <% end %>
+          <%= question.created_at.to_fs(:short) %>
+        </p>
+      </div>
+    </a>
+    <div class="card-footer d-flex">
+      <div class="mx-1">
+        <%= question.question_likes.count %> likes
+      </div>
+      <div class="ms-auto">
+        <%= question.answers.count %> answers
+      </div>
+    </div>
+  </div>
 </div>

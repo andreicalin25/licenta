@@ -1,0 +1,74 @@
+<% if answer.files.attached? %>
+
+  <% images = answer.files.select{|file| file.image?} %>
+  <% if images.size > 1 %>
+    <div id="carouselControlsAnswer<%= answer.id %>" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div class="carousel-item active">
+          <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+            <%= image_tag(images.first, style:"max-height: 400px;", class:"d-block w-100") %>
+          <% end %>
+        </div>
+
+        <% images[1..].each do |image| %>
+            <div class="carousel-item ">
+              <%= link_to url_for(image), target: :_blank, class:"" do%>
+                <%= image_tag(image, style:"max-height: 400px;", class:"d-block w-100") %>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselControlsAnswer<%= answer.id %>" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselControlsAnswer<%= answer.id %>" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  <% elsif images.size == 1 %>
+    <div class="">
+      <%= link_to url_for(images.first), target: :_blank, class:"" do%>
+        <%= image_tag(images.first, style:"max-height: 400px;", class:"d-block w-100") %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% files = answer.files.select{|file| !file.image?} %>
+  <% if files.size > 0 %>
+    <div class="row">
+      <div class="card mt-3 mx-3 col" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+          <% files.each do |file| %>
+            <li class="list-group-item">
+              <%= link_to file.filename, url_for(file), class:"message-file" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col">
+        <p class="align-bottom text-end mt-3">
+          <% if answer.user_id == current_user.id %>
+            You,
+          <% else %>
+            <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
+          <% end %>
+          <%= answer.created_at.to_fs(:short) %>
+        </p>
+      </div>
+    </div>
+
+  <% else %>
+    <p class="card-text mt-3" style="text-align: right">
+      <% if answer.user_id == current_user.id %>
+        You,
+      <% else %>
+        <%= answer.anonymous ? "anonymous," : answer.user.last_name + " " + answer.user.first_name + ","%>
+      <% end %>
+      <%= answer.created_at.to_fs(:short) %>
+    </p>
+  <%end %>
+
+<% end %>

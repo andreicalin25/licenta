@@ -2,8 +2,6 @@
 
 one:
   text: MyText
-  votes: 1
 
 two:
   text: MyText
-  votes: 1

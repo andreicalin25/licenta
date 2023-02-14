@@ -11,27 +11,52 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="my-2">
+    <%= form.label "Enrollment:", style: "display: block" %>
+    <%= form.select :enrollment_id, @my_enrollments.map { |t| [t.teachers_subject.teacher.last_name + " " + t.teachers_subject.subject.subject_name + " " + t.teachers_subject.subject.activity, t.id]}, {}, class: "form-select"  %>
   </div>
 
-  <div>
-    <%= form.label :details, style: "display: block" %>
-    <%= form.text_area :details %>
+  <div class="my-2">
+    <%= form.label "Title:", style: "display: block" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :importance, style: "display: block" %>
-    <%= form.number_field :importance %>
+  <div class="my-2">
+    <%= form.label "Details:", style: "display: block" %>
+    <%= form.text_area :details, class: "form-control"  %>
   </div>
 
-  <div>
-    <%= form.label :votes, style: "display: block" %>
-    <%= form.number_field :votes %>
+  <div class="my-2">
+    <%= form.label "Files:", style: "display: block" %>
+    <%= form.file_field :files, multiple: true, class: "form-control form-control-sm" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="d-flex my-2">
+    <%= form.label "Anonymous:", class: "me-3 mt-2 align-bottom" %>
+    <%= form.check_box :anonymous, class: "mt-2 form-check" %>
   </div>
+
+  <div class="d-flex my-2">
+    <%= form.label "Importance:", class: "me-1 mt-2" %>
+
+
+    <%= form.number_field :importance, min: 1, max: 3, class: "mt-2 mb-2 form-control form-control-sm", "data-bs-toggle": "tooltip", "data-bs-placement": "right", "title": "Priority: 1=low, 2=medium, 3=high" %>
+  </div>
+
+  <div class="d-grid my-3">
+    <%= form.submit class: "btn btn-outline-primary" %>
+  </div>
+<% end %>
+
+<% if question.files.attached? %>
+  <br>
+  <h5>Remove files</h5>
+  <table class="table table-hover table-borderless table-sm">
+    <% question.files.each do |file| %>
+      <tr class="d-flex">
+        <td class="flex-fill"> <%= file.filename %> </td>
+        <td class="ms-auto"> <%= button_to 'Remove', question_remove_file_path(question, file_id: file.id), class: "btn btn-sm btn-square-md btn-outline-danger" %> </td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

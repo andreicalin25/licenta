@@ -1,0 +1,24 @@
+<h3><%= user.first_name %>'s Profile</h3>
+
+<p class="mb-1 mt-3">Email:</p>
+<input class="form-control" type="text" value="<%= user.email %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<p class="mb-1 mt-3">Last name:</p>
+<input class="form-control" type="text" value="<%= user.last_name %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<p class="mb-1 mt-3">First name:</p>
+<input class="form-control" type="text" value="<%= user.first_name %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<p class="mb-1 mt-3">Phone:</p>
+<input class="form-control" type="text" value="<%= user.phone %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<p class="mb-1 mt-3">Role:</p>
+<input class="form-control" type="text" value="<%= user.role %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<p class="mb-1 mt-3">Activated:</p>
+<input class="form-control" type="text" value="<%= user.activated %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+
+<% if user.role == 'STUDENT' %>
+  <p class="mb-1 mt-3">Group:</p>
+  <input class="form-control" type="text" value="<%= user.group %>" aria-label="Disabled input example mb-2 mt-0" disabled>
+<% end %>

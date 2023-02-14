@@ -1,14 +1,29 @@
 class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :authorize_admin, only: %i[ show new create edit update destroy]
+  before_action :authorize_admin_or_teacher
+  before_action :authorize_admin_active
 
   # GET /subjects or /subjects.json
   def index
-    @subjects = Subject.all
+    if current_user.role == "TEACHER"
+      @subjects_of_teacher = TeachersSubject.of_teacher(current_user.id)
+      @subjects_not_of_teacher = Subject.subjects_not_of_teacher(current_user.id)
+    else
+      @subjects = Subject.all
+
+      if params[:sort] == 'subject_name'
+        @subjects = @subjects.sort_by { |s| s.subject_name }
+      elsif params[:sort] == 'subject_name-desc'
+        @subjects = @subjects.sort_by { |s| s.subject_name }.reverse
+      end
+    end
   end
 
   # GET /subjects/1 or /subjects/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /subjects/new
   def new
@@ -16,8 +31,8 @@ class SubjectsController < ApplicationController
   end
 
   # GET /subjects/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /subjects or /subjects.json
   def create
@@ -25,7 +40,7 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully created." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +53,7 @@ class SubjectsController < ApplicationController
   def update
     respond_to do |format|
       if @subject.update(subject_params)
-        format.html { redirect_to subject_url(@subject), notice: "Subject was successfully updated." }
+        format.html { redirect_to subjects_url, notice: "Subject was successfully updated." }
         format.json { render :show, status: :ok, location: @subject }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -63,8 +78,18 @@ class SubjectsController < ApplicationController
       @subject = Subject.find(params[:id])
     end
 
+    def authorize_admin
+      return unless current_user.role != "ADMIN"
+      redirect_to root_path, alert: 'Admins only!'
+    end
+
+    def authorize_admin_or_teacher
+      return unless current_user.role != "ADMIN" and current_user.role != "TEACHER"
+      redirect_to root_path, alert: 'Admins and teachers only!'
+    end
+
     # Only allow a list of trusted parameters through.
     def subject_params
-      params.require(:subject).permit(:subject_name, :type)
+      params.require(:subject).permit(:subject_name, :activity)
     end
 end
